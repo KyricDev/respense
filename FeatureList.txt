@@ -1,0 +1,7 @@
+-Mobile First
+-OAuth Support
+-Expense Types: Customizable with Icons
+-Monthly Fixed Expenses
+-Expense Influx
+-Expense Reminders: Email and/or SMS Customizable Date
+-Expense Reports: Customizable Date
