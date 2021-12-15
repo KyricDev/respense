@@ -2,12 +2,13 @@
   "name": "respense",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "private": true,
   "type": "module",
   "dependencies": {
     "express": "^4.17.1",
-    "react-dom": "^17.0.2",
     "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "ts-loader": "^9.2.6",
     "typescript": "^4.5.4",
     "webpack": "^5.65.0"
   },
@@ -22,7 +23,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "typescript": "tsc --watch",
     "webpack": "webpack --watch",
-    "build": "node dist/server/index.js"
+    "build": "node dist/index.js"
   },
   "keywords": [],
   "author": "",
