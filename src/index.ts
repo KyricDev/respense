@@ -6,6 +6,7 @@ const port: number = 80;
 const __dirname: string = path.resolve();
 
 app.use(express.static(path.join(__dirname, "dist/public")));
+app.use()
 
 app.get('', (req: express.Request, res: express.Response) => {
     res.write("Hello");
