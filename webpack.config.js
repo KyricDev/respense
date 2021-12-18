@@ -4,7 +4,10 @@ const __outDir = path.resolve();
 console.log(__outDir);
 
 const module={
-    entry: "./src/js",
+    entry: {
+        index: "./src/public/js/index",
+        //dummy: "./src/public/js/dummy"
+    },
     mode: "production",
     module: {
         rules: [{
@@ -13,10 +16,10 @@ const module={
         }]
     },
     resolve: {
-        extensions: ['js', 'jsx', 'tsx']
+        extensions: ['.js', '.jsx', '.tsx']
     },
     output: {
-        filename: 'bundle.js',
+        filename: '[name].bundle.js',
         path: path.join(__outDir, 'dist/public/js')
     }
 }
