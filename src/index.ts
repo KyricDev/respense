@@ -1,6 +1,6 @@
 import express from 'express';
 import path from 'path';
-import { databaseconnectiontest } from './data/usercontext.js';
+import { databaseconnectiontest, connection } from './data/usercontext.js';
 
 const app = express();
 const port: number = 80;
