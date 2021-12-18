@@ -1,4 +1,4 @@
-import { createHash, getHashes, Hash } from "crypto";
+import { createHash } from "crypto";
 
 export class User{
     id: string;
