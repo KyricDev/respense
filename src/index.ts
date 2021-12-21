@@ -2,9 +2,7 @@ import express from 'express';
 import path from 'path';
 import { databaseconnectiontest,  usercontext } from './data/usercontext.js';
 import { User } from './models/user.js';
-import passport from 'passport';
-import LocalStrategy from 'passport-local';
-
+import { basicAuth } from './authentication/strategies.js'; 
 
 const app = express();
 const port: number = 80;
@@ -29,6 +27,7 @@ app.use(async (req, res, next) => {
         console.log(err);
     }
     */
+    basicAuth("Dummy0", "Dummy0");
     next();
 });
 app.use(express.static(path.join(__dirname, "dist/public")));
