@@ -1,12 +1,22 @@
 import express from 'express';
+import session from 'express-session';
 import path from 'path';
-import { databaseconnectiontest,  usercontext } from './data/usercontext.js';
-import { User } from './models/user.js';
 import { localStrategy } from './authentication/strategies.js'; 
+import passport from 'passport';
+import { usercontext } from './data/usercontext.js';
 
 const app = express();
 const port: number = 80;
 const __dirname: string = path.resolve();
+passport.use('local', localStrategy);
+passport.serializeUser((user: any, done) => {
+    console.log(user);
+    done(null, user.id);
+})
+passport.deserializeUser((id: any, done) => {
+    console.log(id);
+    done(null, usercontext.findByPk(id));
+})
 
 app.use(async (req, res, next) => {
     //databaseconnectiontest();
@@ -31,9 +41,18 @@ app.use(async (req, res, next) => {
     next();
 });
 app.use(express.static(path.join(__dirname, "dist/public")));
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.get('', (req: express.Request, res: express.Response) => {
-    res.write("Hello");
+app.get('', 
+        passport.authenticate('local'),
+        (req: any, res) => {
+    res.write(`Hello ${req.user?.username}`);
     res.end();
 });
 

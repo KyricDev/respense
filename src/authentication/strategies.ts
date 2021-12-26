@@ -13,6 +13,7 @@ async function basicAuth(username: string, password: string, done: Function) {
         if (!user.validatePassword(password)) return done(null, false, { message: "Username and/or Password Incorrect"});
 
         console.log("Login Successful!");
+        return done(null, user);
     }
     catch(err){
         throw err;
