@@ -3,10 +3,10 @@ import  bcrypt  from "bcrypt";
 import { v4 } from "uuid";
 
 export class User{
-    id: string;
-    username: string;
-    password: string;
-    salt: string;
+    public id: string;
+    public username: string;
+    public password: string;
+    public salt: string;
 
     constructor(username: string, password: string){
         this.id = v4();

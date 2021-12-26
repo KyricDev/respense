@@ -1,6 +1,8 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
 import fs from 'fs';
 import { User as ModelUser }  from '../models/user';
+import  bcrypt  from "bcrypt";
+import { v4 } from "uuid";
 
 function initSequelize(): Sequelize {
     let appsettings = JSON.parse(fs.readFileSync('src/appsettings.json', 'utf-8'));
@@ -23,6 +25,17 @@ export async function databaseconnectiontest(){
 };
 
 class User extends Model {
+    public id!: string;
+    public username!: string;
+    public password!: string;
+    public salt!: string;
+
+    public validatePassword(password:string):boolean {
+        let hash = bcrypt.hashSync(password, this.salt);
+
+        if (hash != this.password) return false;
+        return true;
+    }
 }
 
 export const usercontext = User.init({
