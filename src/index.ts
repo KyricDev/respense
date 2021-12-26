@@ -9,13 +9,13 @@ const app = express();
 const port: number = 80;
 const __dirname: string = path.resolve();
 passport.use('local', localStrategy);
-passport.serializeUser((user: any, done) => {
+passport.serializeUser((user: passport.Express.User, done) => {
     console.log(user);
     done(null, user.id);
 })
-passport.deserializeUser((id: any, done) => {
+passport.deserializeUser(async(id: any, done) => {
     console.log(id);
-    done(null, usercontext.findByPk(id));
+    done(null, await usercontext.findByPk(id));
 })
 
 app.use(async (req, res, next) => {
@@ -51,8 +51,8 @@ app.use(passport.session());
 
 app.get('', 
         passport.authenticate('local'),
-        (req: any, res) => {
-    res.write(`Hello ${req.user?.username}`);
+        (req: express.Request, res: express.Response) => {
+    res.write(`Hello ${req.user.username}`);
     res.end();
 });
 
