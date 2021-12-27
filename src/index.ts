@@ -11,10 +11,10 @@ const __dirname: string = path.resolve();
 passport.use('local', localStrategy);
 passport.serializeUser((user: passport.Express.User, done) => {
     done(null, user.id);
-})
+});
 passport.deserializeUser(async(id: any, done) => {
     done(null, await usercontext.findByPk(id));
-})
+});
 
 app.use(async (req, res, next) => {
     //databaseconnectiontest();
@@ -38,7 +38,9 @@ app.use(async (req, res, next) => {
     // basicAuth("Dummy0", "Dummy0");
     next();
 });
-app.use(express.static(path.join(__dirname, "dist/public/")));
+app.use(express.static(path.join(__dirname, "dist/public/views/"), {index: false, extensions: ['html']}));
+app.use(express.static(path.join(__dirname, "dist/public/js/"), {extensions: ['bundle.js']}));
+app.use(express.static(path.join(__dirname, "dist/public/css/"), {extensions: ['css']}));
 app.use(session({
     secret: 'secret respense',
     resave: false,
@@ -54,4 +56,4 @@ app.get('',
     res.end();
 });
 
-app.listen(port, () => console.log("listening on port " + port));
+app.listen(port, () => console.log(`listening on port ${port}`));
