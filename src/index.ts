@@ -10,11 +10,9 @@ const port: number = 80;
 const __dirname: string = path.resolve();
 passport.use('local', localStrategy);
 passport.serializeUser((user: passport.Express.User, done) => {
-    console.log(user);
     done(null, user.id);
 })
 passport.deserializeUser(async(id: any, done) => {
-    console.log(id);
     done(null, await usercontext.findByPk(id));
 })
 
@@ -40,9 +38,9 @@ app.use(async (req, res, next) => {
     // basicAuth("Dummy0", "Dummy0");
     next();
 });
-app.use(express.static(path.join(__dirname, "dist/public")));
+app.use(express.static(path.join(__dirname, "dist/public/")));
 app.use(session({
-    secret: 'keyboard cat',
+    secret: 'secret respense',
     resave: false,
     saveUninitialized: false
 }));
