@@ -45,6 +45,7 @@ app.use(async (req, res, next) => {
 });
 app.use(cookieParser());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "dist/public/views/"), {index: false, extensions: ['html']}));
 app.use(express.static(path.join(__dirname, "dist/public/js/"), {extensions: ['bundle.js']}));
 app.use(express.static(path.join(__dirname, "dist/public/css/"), {extensions: ['css']}));
@@ -63,6 +64,13 @@ app.use(passport.session());
 app.get('',
        (req: express.Request | any, res: express.Response) => {
     res.sendFile('/views/index.html', {root: path.join(__dirname, "dist")}, (err) => {if (err) throw err});
+});
+app.post('/login',
+        passport.authenticate('local', {failureRedirect: '/'}),
+        (req: express.Request, res: express.Response) => {
+    console.log(req);
+    res.write('Welcome!');
+    res.end();
 });
 app.get('/success?',
         passport.authorize('cookie-authorize', {failureRedirect: '/failed'}),
