@@ -61,15 +61,14 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('',
+app.get(['', '/login'],
        (req: express.Request | any, res: express.Response) => {
     res.sendFile('/views/index.html', {root: path.join(__dirname, "dist")}, (err) => {if (err) throw err});
 });
 app.post('/login',
         passport.authenticate('local', {failureRedirect: '/'}),
         (req: express.Request, res: express.Response) => {
-    console.log(req);
-    res.write('Welcome!');
+    res.write(`Welcome ${req.user.username}!`);
     res.end();
 });
 app.get('/success?',
@@ -83,5 +82,10 @@ app.get('/failed',
     res.write('Unauthorized Access');
     res.end();
 });
+app.get('*',
+        (req: express.Request, res: express.Response) => {
+    res.writeHead(404, "Page does not Exist");
+    res.end("Page does not Exist X_X");
+})
 
 app.listen(port, () => console.log(`listening on port ${port}`));
