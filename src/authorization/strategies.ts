@@ -1,29 +1,16 @@
-import passport from 'passport';
+import passport, { session } from 'passport';
 import LocalStrategy from 'passport-local';
 import CookieStrategy from 'passport-cookie';
 import express from 'express';
 import { usercontext } from '../data/usercontext.js';
-
-async function verify(req: any, username: any, password: any, done: Function) {
-    console.log('verifying . . .');
-    let reqid = req.session.passport.user;
-    console.log(reqid);
-    let user = await usercontext.findByPk(reqid);
-    console.log(req.cookie);
-    console.log(req);
-
-    if (!user) {
-        console.log("User not found");
-        return done(null, false, "User not Found");
-    }
-
-    return done(null, user, "User Found");
-}
-
-export const localAuthorization = new LocalStrategy.Strategy({passReqToCallback: true}, verify);
+import cookieParser from 'cookie-parser';
 
 async function verifyCookie(req: any, token: any, done: Function) {
     console.log('verifying cookie');
+    /*
+    let data: any = cookieParser.signedCookie(token, 'secret respense')
+    let buffer = Buffer.from(data, 'hex');
+    console.log(`output: ${buffer.toString("utf8")}`);*/
     console.log(req.session);
     console.log(token);
 

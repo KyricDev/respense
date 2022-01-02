@@ -10,7 +10,7 @@ declare module 'express-serve-static-core'{
 declare module 'passport'{
     namespace Express{
         export interface User{
-            id: modelUser["id"];       
+            id: modelUser["id"];    
         }
     }
 }
