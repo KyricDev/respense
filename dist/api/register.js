@@ -1,0 +1,34 @@
+import { usercontext } from '../data/usercontext.js';
+import { User } from '../models/user.js';
+export async function localRegister(req, res, next) {
+    console.log("Register API Called");
+    let username = req.body.username;
+    let password = req.body.password;
+    let confirmPassword = req.body.confirmPassword;
+    console.log(`${username} -- ${password} -- ${confirmPassword}`);
+    if (username == null)
+        return res.writeHead(404, "Username is Required").end();
+    if (password == null || confirmPassword == null)
+        return res.writeHead(404, "Password is Required").end();
+    if (password !== confirmPassword)
+        res.writeHead(404, "Passwords do not Match").end();
+    try {
+        let user = await usercontext.findOne({ where: { username: username } });
+        if (user)
+            return res.writeHead(404, "User Already Exists").end();
+    }
+    catch (err) {
+        console.log("User Find Failed");
+        throw err;
+    }
+    try {
+        let newUser = new User(username, password);
+        await usercontext.create(newUser);
+        return res.status(200).send(newUser);
+    }
+    catch (err) {
+        console.log("User Creation Failed");
+        throw err;
+    }
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicmVnaXN0ZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi9zcmMvYXBpL3JlZ2lzdGVyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUNBLE9BQU8sRUFBRSxXQUFXLEVBQUUsTUFBTSx3QkFBd0IsQ0FBQztBQUNyRCxPQUFPLEVBQUUsSUFBSSxFQUFFLE1BQU0sbUJBQW1CLENBQUM7QUFFekMsTUFBTSxDQUFDLEtBQUssVUFBVSxhQUFhLENBQUMsR0FBb0IsRUFBRSxHQUFxQixFQUFFLElBQTBCO0lBQ3ZHLE9BQU8sQ0FBQyxHQUFHLENBQUMscUJBQXFCLENBQUMsQ0FBQztJQUNuQyxJQUFJLFFBQVEsR0FBRyxHQUFHLENBQUMsSUFBSSxDQUFDLFFBQVEsQ0FBQztJQUNqQyxJQUFJLFFBQVEsR0FBRyxHQUFHLENBQUMsSUFBSSxDQUFDLFFBQVEsQ0FBQztJQUNqQyxJQUFJLGVBQWUsR0FBRyxHQUFHLENBQUMsSUFBSSxDQUFDLGVBQWUsQ0FBQztJQUUvQyxPQUFPLENBQUMsR0FBRyxDQUFDLEdBQUcsUUFBUSxPQUFPLFFBQVEsT0FBTyxlQUFlLEVBQUUsQ0FBQyxDQUFDO0lBRWhFLElBQUksUUFBUSxJQUFJLElBQUk7UUFBRSxPQUFPLEdBQUcsQ0FBQyxTQUFTLENBQUMsR0FBRyxFQUFFLHNCQUFzQixDQUFDLENBQUMsR0FBRyxFQUFFLENBQUM7SUFFOUUsSUFBSSxRQUFRLElBQUksSUFBSSxJQUFJLGVBQWUsSUFBSSxJQUFJO1FBQUUsT0FBTyxHQUFHLENBQUMsU0FBUyxDQUFDLEdBQUcsRUFBRSxzQkFBc0IsQ0FBQyxDQUFDLEdBQUcsRUFBRSxDQUFDO0lBRXpHLElBQUksUUFBUSxLQUFLLGVBQWU7UUFBRSxHQUFHLENBQUMsU0FBUyxDQUFDLEdBQUcsRUFBRSx3QkFBd0IsQ0FBQyxDQUFDLEdBQUcsRUFBRSxDQUFDO0lBRXJGLElBQUc7UUFDQyxJQUFJLElBQUksR0FBRyxNQUFNLFdBQVcsQ0FBQyxPQUFPLENBQUMsRUFBQyxLQUFLLEVBQUUsRUFBQyxRQUFRLEVBQUUsUUFBUSxFQUFDLEVBQUUsQ0FBQyxDQUFDO1FBQ3JFLElBQUksSUFBSTtZQUFFLE9BQU8sR0FBRyxDQUFDLFNBQVMsQ0FBQyxHQUFHLEVBQUUscUJBQXFCLENBQUMsQ0FBQyxHQUFHLEVBQUUsQ0FBQztLQUNwRTtJQUNELE9BQU0sR0FBRyxFQUFDO1FBQ04sT0FBTyxDQUFDLEdBQUcsQ0FBQyxrQkFBa0IsQ0FBQyxDQUFDO1FBQ2hDLE1BQU0sR0FBRyxDQUFBO0tBQ1o7SUFFRCxJQUFHO1FBQ0MsSUFBSSxPQUFPLEdBQUcsSUFBSSxJQUFJLENBQUMsUUFBUSxFQUFFLFFBQVEsQ0FBQyxDQUFDO1FBQzNDLE1BQU0sV0FBVyxDQUFDLE1BQU0sQ0FBQyxPQUFPLENBQUMsQ0FBQztRQUNsQyxPQUFPLEdBQUcsQ0FBQyxNQUFNLENBQUMsR0FBRyxDQUFDLENBQUMsSUFBSSxDQUFDLE9BQU8sQ0FBQyxDQUFDO0tBQ3hDO0lBQ0QsT0FBTSxHQUFHLEVBQUM7UUFDTixPQUFPLENBQUMsR0FBRyxDQUFDLHNCQUFzQixDQUFDLENBQUM7UUFDcEMsTUFBTSxHQUFHLENBQUM7S0FDYjtBQUNMLENBQUMifQ==

@@ -21,7 +21,7 @@ class Root extends React.Component<any, any>{
         let confirmPassword = null;
         let spacing = null;
         if (!this.state.isOnLogin){
-            formAction = "form method=\"post\" action=\"/register\"";
+            formAction = "/register";
             formState = "Register";
             formButton = "to login";
             confirmPassword = <input type="password" id="confirmPassword" name="confirmPassword" placeholder="confirm password" autoComplete="password"></input>;

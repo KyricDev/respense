@@ -2,8 +2,9 @@ import passport from "passport";
 import LocalStrategy from "passport-local";
 import { usercontext } from "../data/usercontext.js";
 import  bcrypt  from "bcrypt";
+import { User } from '../models/user.js';
 
-async function basicAuth(username: string, password: string, done: Function) {
+async function basicLogin(username: string, password: string, done: Function) {
     try{
         let user = await usercontext.findOne({ where: { username: username 
         }});
@@ -20,4 +21,4 @@ async function basicAuth(username: string, password: string, done: Function) {
     }    
 }
 
-export const localStrategy = new LocalStrategy.Strategy(basicAuth);
+export const localLogin = new LocalStrategy.Strategy(basicLogin);
