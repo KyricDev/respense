@@ -6,12 +6,13 @@ import { localRegister } from './api/register.js';
 import { authorizeCookie } from './authorization/strategies.js' 
 import passport from 'passport';
 import { usercontext } from './data/usercontext.js';
-import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import multer from 'multer';
 
 const app = express();
 const port: number = 80;
 const __dirname: string = path.resolve();
+const upload = multer();
 passport.use('basicLogin', localLogin);
 passport.use('cookie-authorize', authorizeCookie);
 passport.serializeUser((user: passport.Express.User, done) => {
@@ -45,8 +46,8 @@ app.use(async (req, res, next) => {
     next();
 });
 app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "dist/public/views/"), {index: false, extensions: ['html']}));
 app.use(express.static(path.join(__dirname, "dist/public/js/"), {extensions: ['bundle.js']}));
 app.use(express.static(path.join(__dirname, "dist/public/css/"), {extensions: ['css']}));
