@@ -20,14 +20,11 @@ class Root extends React.Component<any, any>{
         let data = new FormData();
         data.append("username", e.target[0].value);
         data.append("password", e.target[1].value);
-        data.append("confirmpassword", e.target[0].value);
+        data.append("confirmPassword", e.target[0].value);
         
         try{
             fetch(apiRoot + 'register', { 
                 method: 'POST',
-                headers: {  
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
                 body: data
             })
             .then( (response) => response.json() )

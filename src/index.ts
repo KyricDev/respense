@@ -48,6 +48,7 @@ app.use(async (req, res, next) => {
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(upload.none());
 app.use(express.static(path.join(__dirname, "dist/public/views/"), {index: false, extensions: ['html']}));
 app.use(express.static(path.join(__dirname, "dist/public/js/"), {extensions: ['bundle.js']}));
 app.use(express.static(path.join(__dirname, "dist/public/css/"), {extensions: ['css']}));
