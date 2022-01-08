@@ -14,3 +14,9 @@ declare module 'passport'{
         }
     }
 }
+
+declare module 'express-session'{
+    export interface SessionData{
+        userid: modelUser["id"];
+    }
+}

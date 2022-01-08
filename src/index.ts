@@ -1,8 +1,9 @@
 import express from 'express';
 import session from 'express-session';
 import path from 'path';
-import { localLogin } from './authentication/strategies.js'; 
+//import { localLogin } from './authentication/strategies.js'; 
 import { localRegister } from './api/register.js';
+import { localLogin } from './api/login.js';
 import { authorizeCookie } from './authorization/strategies.js' 
 import passport from 'passport';
 import { usercontext } from './data/usercontext.js';
@@ -13,7 +14,7 @@ const app = express();
 const port: number = 80;
 const __dirname: string = path.resolve();
 const upload = multer();
-passport.use('basicLogin', localLogin);
+//passport.use('basicLogin', localLogin);
 passport.use('cookie-authorize', authorizeCookie);
 passport.serializeUser((user: passport.Express.User, done) => {
     console.log('Serializing . . .');
@@ -68,12 +69,7 @@ app.get(['', '/login'],
        (req: express.Request | any, res: express.Response) => {
     res.sendFile('/views/index.html', {root: path.join(__dirname, "dist")}, (err) => {if (err) throw err});
 });
-app.post('/login',
-        passport.authenticate('basicLogin', {failureRedirect: '/'}),
-        (req: express.Request, res: express.Response) => {
-    res.write(`Welcome ${req.user.username}!`);
-    res.end();
-});
+app.post('/login', localLogin);
 app.post('/register', localRegister);
 app.get('/success?',
         passport.authorize('cookie-authorize', {failureRedirect: '/failed'}),
