@@ -6,7 +6,8 @@ class Root extends React.Component<any, any>{
     constructor(props: any){
         super(props);
         this.state = {
-            isOnLogin: true
+            isOnLogin: true,
+            statusText: ''
         }
         this.changeForm = this.changeForm.bind(this);
         this.register = this.register.bind(this);
@@ -14,21 +15,24 @@ class Root extends React.Component<any, any>{
     }
     changeForm(){
         let currentState = this.state.isOnLogin;
-        this.setState({ isOnLogin: !currentState});
+        this.setState({ isOnLogin: !currentState, statusText: '' });
     }
     register(e: any){
         e.preventDefault();
         let data = new FormData();
         data.append("username", e.target[0].value);
         data.append("password", e.target[1].value);
-        data.append("confirmPassword", e.target[0].value);        
+        data.append("confirmPassword", e.target[2].value);        
 
         fetch(apiRoot + 'register', { 
             method: 'POST',
             redirect: 'follow',
             body: data
         })
-        .then( (response) => console.log(response) )
+        .then( (response) => {
+            console.log(response); 
+            this.setState({ statusText: response.statusText });
+        })
         .catch( (error) => console.log(error) );
     }
     login (e: any){
@@ -41,7 +45,10 @@ class Root extends React.Component<any, any>{
             method: "POST",
             body: data
         })
-        .then( (response) => console.log(response) )
+        .then( (response) => {
+            console.log(response); 
+            this.setState({statusText: response.statusText});
+        })    
         .catch( (err) => console.log(err) );
     }
     render(){
@@ -75,6 +82,7 @@ class Root extends React.Component<any, any>{
                     {spacing}
                     <br />
                     <button type="submit">{formState.toLowerCase()}</button>
+                    {this.state.statusText}
                 </form>
             </div>
         )

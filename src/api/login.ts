@@ -9,33 +9,33 @@ export async function localLogin (req: express.Request, res: express.Response, n
     let password = req.body.password;
 
     if (req.session.userid) {
-        res.status(404).end("User is not logged in");
+        res.writeHead(404, "User is not logged in").end();
         return next();
     }
 
     if (username == "") {       
-        res.status(404).end("Username is Required");
+        res.writeHead(404, "Username is required").end();
         return next();
     }
 
     if (password == "") {
-        res.status(404).end("Password is Required");
+        res.writeHead(404, "Password is required").end();
         return next();
     }
 
     let user = await usercontext.findOne({where: {username: username}});
 
     if (!user) {
-        res.status(404).end("User does not exist");
+        res.writeHead(404, "User does not exist").end();
         return next();
     }
 
     if (user.validatePassword(password)) {
         req.session.userid = user.id;
-        res.status(200).end("Session Stored");
+        res.writeHead(404, "Logged In").end();
         return next();
     }
 
-    res.status(200).end("Unexpected Error during Login.");
+    res.status(404).end("Unexpected Error during Login.");
     return next();
 }

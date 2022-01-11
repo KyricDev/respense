@@ -10,7 +10,7 @@ export async function localRegister(req: express.Request, res: express.Response,
     let confirmPassword = req.body.confirmPassword;
 
     if (req.session.userid) {
-        res.status(404).end("User is Logged in");
+        res.writeHead(404, "User is Logged In").end();
         return next();
     }
 
@@ -24,7 +24,7 @@ export async function localRegister(req: express.Request, res: express.Response,
         return next();
     }
 
-    if (password !== confirmPassword) {
+    if (password != confirmPassword) {
         res.writeHead(404, "Passwords do not Match").end();
         return next();
     }
@@ -38,7 +38,7 @@ export async function localRegister(req: express.Request, res: express.Response,
     }
     catch(err){
         console.log("User Find Failed");
-        throw err
+        throw err;
     }
 
     try{
