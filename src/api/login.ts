@@ -8,8 +8,10 @@ export async function localLogin (req: express.Request, res: express.Response, n
     let username = req.body.username;
     let password = req.body.password;
 
-    console.log(`${username} -- ${password}`);
-    console.log(req.session);
+    if (req.session.userid) {
+        res.status(404).end("User is not logged in");
+        return next();
+    }
 
     if (username == "") {       
         res.status(404).end("Username is Required");

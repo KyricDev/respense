@@ -71,17 +71,6 @@ app.get(['', '/login'],
 });
 app.post('/login', localLogin);
 app.post('/register', localRegister);
-app.get('/success?',
-        passport.authorize('cookie-authorize', {failureRedirect: '/failed'}),
-        (req: express.Request, res: express.Response) => {
-    res.write('You are authorized');
-    res.end();
-});
-app.get('/failed',
-        (req: express.Request, res: express.Response) => {
-    res.write('Unauthorized Access');
-    res.end();
-});
 app.get('*',
         (req: express.Request, res: express.Response) => {
     res.writeHead(404, "Page does not Exist");

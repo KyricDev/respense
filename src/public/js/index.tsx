@@ -21,19 +21,15 @@ class Root extends React.Component<any, any>{
         let data = new FormData();
         data.append("username", e.target[0].value);
         data.append("password", e.target[1].value);
-        data.append("confirmPassword", e.target[0].value);
-        
-        try{
-            fetch(apiRoot + 'register', { 
-                method: 'POST',
-                body: data
-            })
-            .then( (response) => response.json() )
-            .then( (info) => console.log(info) ) ;
-        }
-        catch(err){
-            throw err;
-        }
+        data.append("confirmPassword", e.target[0].value);        
+
+        fetch(apiRoot + 'register', { 
+            method: 'POST',
+            redirect: 'follow',
+            body: data
+        })
+        .then( (response) => console.log(response) )
+        .catch( (error) => console.log(error) );
     }
     login (e: any){
         e.preventDefault();
@@ -41,17 +37,12 @@ class Root extends React.Component<any, any>{
         data.append("username", e.target[0].value);
         data.append("password", e.target[1].value);
 
-        try{ 
-            fetch (apiRoot + 'login', {
-                method: "POST",
-                body: data
-            })
-            .then( (response) => response.json() )
-            .then( (info) => console.log(info));
-        }
-        catch(err){
-            throw err;
-        }
+        fetch (apiRoot + 'login', {
+            method: "POST",
+            body: data
+        })
+        .then( (response) => console.log(response) )
+        .catch( (err) => console.log(err) );
     }
     render(){
         let formAction = "/login";

@@ -4,13 +4,15 @@ import { User } from '../models/user.js';
 
 export async function localRegister(req: express.Request, res: express.Response, next: express.NextFunction){
     console.log("Register API Called");
-    //console.log(req);
-    console.log(req.body);
+
     let username = req.body.username;
     let password = req.body.password;
     let confirmPassword = req.body.confirmPassword;
 
-    console.log(`${username} -- ${password} -- ${confirmPassword}`);
+    if (req.session.userid) {
+        res.status(404).end("User is Logged in");
+        return next();
+    }
 
     if (username == null || username == '') {
         res.writeHead(404, "Username is Required").end();
