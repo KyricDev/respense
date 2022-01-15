@@ -6,7 +6,7 @@ import { localRegister } from './api/register.js';
 import { localLogin } from './api/login.js';
 import { authorizeCookie } from './authorization/strategies.js' 
 import passport from 'passport';
-import { usercontext } from './data/usercontext.js';
+import { usercontext, expensescontext } from './data/usercontext.js';
 import cookieParser from 'cookie-parser';
 import multer from 'multer';
 
@@ -44,6 +44,19 @@ app.use(async (req, res, next) => {
     }
     */
     // basicAuth("Dummy0", "Dummy0");
+    //expensescontext.sync({ force: true });
+    let expensessequelize = expensescontext
+                            .build({
+                                UserId: "13de43d8-bcaf-4d8e-beb5-459b6f182c69"
+                            });
+
+    try{ 
+        await expensessequelize.save();
+    }
+    catch(err){
+        console.log(err);
+    }
+
     next();
 });
 app.use(cookieParser());

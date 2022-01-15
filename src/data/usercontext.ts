@@ -1,8 +1,7 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
 import fs from 'fs';
-import { User as ModelUser }  from '../models/user';
 import  bcrypt  from "bcrypt";
-import { v4 } from "uuid";
+import { User as UserModel } from '../models/user.js';
 
 function initSequelize(): Sequelize {
     let appsettings = JSON.parse(fs.readFileSync('src/appsettings.json', 'utf-8'));
@@ -24,7 +23,7 @@ export async function databaseconnectiontest(){
     }
 };
 
-class User extends Model {
+class User extends Model{
     public id!: string;
     public username!: string;
     public password!: string;
@@ -37,7 +36,6 @@ class User extends Model {
         return true;
     }
 }
-
 export const usercontext = User.init({
     id: {
         primaryKey: true,
@@ -61,3 +59,29 @@ export const usercontext = User.init({
     sequelize: connection,
     modelName: 'User'
 });
+class Expenses extends Model {
+    public id?: number;
+    public type?: string;
+    public value?: number;
+}
+export const expensescontext = Expenses.init({
+    id: {
+        primaryKey: true,
+        type: DataTypes.BIGINT,
+        autoIncrement: true,
+        allowNull: true,
+    },
+    type: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    value: {
+        type: DataTypes.BIGINT,
+        allowNull: true,
+    }
+},{
+    sequelize: connection,
+    modelName: 'Expenses'
+});
+User.hasMany(Expenses);
+Expenses.belongsTo(User);
