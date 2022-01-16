@@ -78,6 +78,10 @@ export const expensescontext = Expenses.init({
     value: {
         type: DataTypes.BIGINT,
         allowNull: true,
+    },
+    description: {
+        type: DataTypes.STRING,
+        allowNull: true,
     }
 },{
     sequelize: connection,
