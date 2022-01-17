@@ -1,11 +1,8 @@
 import express from 'express';
 import session from 'express-session';
 import path from 'path';
-//import { localLogin } from './authentication/strategies.js'; 
 import { localRegister } from './api/register.js';
 import { localLogin } from './api/login.js';
-import { authorizeCookie } from './authorization/strategies.js' 
-import passport from 'passport';
 import { usercontext, expensescontext } from './data/usercontext.js';
 import cookieParser from 'cookie-parser';
 import multer from 'multer';
@@ -14,15 +11,6 @@ const app = express();
 const port: number = 80;
 const __dirname: string = path.resolve();
 const upload = multer();
-//passport.use('basicLogin', localLogin);
-passport.use('cookie-authorize', authorizeCookie);
-passport.serializeUser((user: passport.Express.User, done) => {
-    console.log('Serializing . . .');
-    done(null, user.id);
-});
-passport.deserializeUser(async(id: any, done) => {
-    done(null, await usercontext.findByPk(id));
-});
 
 app.use(async (req, res, next) => {
     //databaseconnectiontest();
@@ -75,8 +63,6 @@ app.use(session({
         httpOnly: false,
     }
 }));
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.get(['', '/login'],
        (req: express.Request | any, res: express.Response) => {
