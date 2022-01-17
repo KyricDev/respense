@@ -7,11 +7,15 @@ class Root extends React.Component<any, any>{
         super(props);
         this.state = {
             isOnLogin: true,
+            name: '',
             statusText: ''
         }
         this.changeForm = this.changeForm.bind(this);
         this.register = this.register.bind(this);
         this.login = this.login.bind(this);
+    }
+    componentDidMount(){
+        console.log(document.cookie);
     }
     changeForm(){
         let currentState = this.state.isOnLogin;
@@ -29,9 +33,13 @@ class Root extends React.Component<any, any>{
             redirect: 'follow',
             body: data
         })
+        .then( (response) => response.json())
         .then( (response) => {
-            console.log(response); 
-            this.setState({ statusText: response.statusText });
+            console.log(response);
+            this.setState({
+                name: response.name,
+                statusText: response.statusText
+            })
         })
         .catch( (error) => console.log(error) );
     }
@@ -45,9 +53,13 @@ class Root extends React.Component<any, any>{
             method: "POST",
             body: data
         })
+        .then( (response) => response.json() )
         .then( (response) => {
             console.log(response); 
-            this.setState({statusText: response.statusText});
+            this.setState({
+                name: response.name,
+                statusText: response.statusText
+            });
         })    
         .catch( (err) => console.log(err) );
     }

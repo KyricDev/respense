@@ -10,29 +10,40 @@ export async function localRegister(req: express.Request, res: express.Response,
     let confirmPassword = req.body.confirmPassword;
 
     if (req.session.userid) {
-        res.writeHead(404, "User is Logged In").end();
+        let user = await usercontext.findOne({ where: { id: req.session.userid }});
+        res.status(200)
+           .send({"name": user?.username, "statusText": "A user is already logged in" })
+           .end();
         return next();
     }
 
-    if (username == null || username == '') {
-        res.writeHead(404, "Username is Required").end();
+    if (username == null || username == '') {       
+        res.status(404)
+           .send({"statusText": "Username is required"})
+           .end();
         return next();
     }
 
     if (password == null || confirmPassword == null || password == '' || confirmPassword == '') {
-        res.writeHead(404, "Password is Required").end();
+        res.status(404)
+           .send({"statusText": "Password is required"})
+           .end();
         return next();
     }
 
     if (password != confirmPassword) {
-        res.writeHead(404, "Passwords do not Match").end();
+        res.status(404)
+           .send({"statusText": "Passwords do not match"})
+           .end();
         return next();
     }
 
     try{
         let user = await usercontext.findOne({where: {username: username} });
         if (user) {
-            res.writeHead(404, "User Already Exists").end();
+            res.status(404)
+               .send({"statusText": "User already exists"})
+               .end();
             return next();
         }
     }
@@ -44,7 +55,9 @@ export async function localRegister(req: express.Request, res: express.Response,
     try{
         let newUser = new User(username, password);
         await usercontext.create(newUser);
-        res.status(200).json(newUser);
+        res.status(200)
+           .send({"statusText": "User Created"})
+           .end();
         return next();
     }
     catch(err){

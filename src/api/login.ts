@@ -9,33 +9,48 @@ export async function localLogin (req: express.Request, res: express.Response, n
     let password = req.body.password;
 
     if (req.session.userid) {
-        res.writeHead(404, "User is not logged in").end();
+        let user = await usercontext.findOne({ where: { id: req.session.userid }});
+        res.cookie("respense.cookie", user?.username);
+        res.status(200)
+           .send({"name": user?.username, "statusText": "A user is already logged in" })
+           .end();
         return next();
     }
 
     if (username == "") {       
-        res.writeHead(404, "Username is required").end();
+        res.status(404)
+           .send({"statusText": "Username is required"})
+           .end();
         return next();
     }
 
     if (password == "") {
-        res.writeHead(404, "Password is required").end();
+        res.status(404)
+           .send({"statusText": "Password is required"})
+           .end();
         return next();
     }
 
     let user = await usercontext.findOne({where: {username: username}});
 
     if (!user) {
-        res.writeHead(404, "User does not exist").end();
+        res.status(404)
+           .send({"statusText": "User not found"})
+           .end();
         return next();
     }
 
     if (user.validatePassword(password)) {
         req.session.userid = user.id;
-        res.writeHead(404, "Logged In").end();
+        res.cookie("respense.cookie", user?.username);
+        res.status(200)
+           .send({"name": user.username, "statusText": "User logged in"})
+           .end();
         return next();
     }
 
-    res.status(404).end("Unexpected Error during Login.");
+    res.status(404)
+       .send({"statusText": "Unexpected error during login"})
+       .end();
     return next();
 }
