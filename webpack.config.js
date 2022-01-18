@@ -6,6 +6,7 @@ console.log(__outDir);
 const module={
     entry: {
         index: "./src/public/js/index",
+        dashboard: "./src/public/js/dashboard"
         //dummy: "./src/public/js/dummy"
     },
     mode: "production",

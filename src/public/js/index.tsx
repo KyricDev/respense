@@ -27,7 +27,10 @@ class Root extends React.Component<any, any>{
         }))
     }
     componentDidUpdate(prevProps: any, prevState: any){
-        if (this.state.isLoggedIn) console.log("Route to Dashboard . . .");
+        if (this.state.isLoggedIn) {
+            console.log("Route to Dashboard . . .");
+            window.location.assign(apiRoot + 'dashboard');
+        }
     }
     changeForm(){
         let currentState = this.state.isOnLogin;

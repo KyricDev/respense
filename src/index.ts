@@ -54,7 +54,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(upload.none());
 app.use(express.static(path.join(__dirname, "dist/public/views/"), {index: false, extensions: ['html']}));
-app.use(express.static(path.join(__dirname, "dist/public/js/"), {extensions: ['bundle.js']}));
+app.use(express.static(path.join(__dirname, "dist/public/js/")));
 app.use(express.static(path.join(__dirname, "dist/public/css/"), {extensions: ['css']}));
 app.use(session({
     name: 'respense.user',
@@ -68,8 +68,21 @@ app.use(session({
 
 app.get(['', '/login'],
         (req: express.Request | any, res: express.Response) => {
-    res.sendFile('/views/index.html', {root: path.join(__dirname, "dist")}, (err) => {if (err) throw err});
+    res.sendFile(
+        '/views/index.html', 
+        {root: path.join(__dirname, "dist")}, 
+        (err) => {if (err) throw err
+    });
 });
+app.get('/dashboard', 
+        (req: express.Request | any, res: express.Response) => {
+    if (!req.session.userid) return res.redirect('/');
+    res.sendFile(
+        '/views/dashboard.html', 
+        {root: path.join(__dirname, "dist")}, 
+        (err) => {if (err) throw err
+    });
+})
 app.post('', sessionCheck);
 app.post('/login', localLogin);
 app.post('/register', localRegister);
