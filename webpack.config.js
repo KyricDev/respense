@@ -9,7 +9,7 @@ const module={
         dashboard: "./src/public/js/dashboard"
         //dummy: "./src/public/js/dummy"
     },
-    mode: "production",
+    mode: "development",
     module: {
         rules: [{
             use: 'ts-loader',
