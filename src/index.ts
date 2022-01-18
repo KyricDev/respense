@@ -3,6 +3,7 @@ import session from 'express-session';
 import path from 'path';
 import { localRegister } from './api/register.js';
 import { localLogin } from './api/login.js';
+import sessionCheck from './api/sessionCheck.js';
 import { usercontext, expensescontext } from './data/usercontext.js';
 import cookieParser from 'cookie-parser';
 import multer from 'multer';
@@ -66,9 +67,10 @@ app.use(session({
 }));
 
 app.get(['', '/login'],
-       (req: express.Request | any, res: express.Response) => {
+        (req: express.Request | any, res: express.Response) => {
     res.sendFile('/views/index.html', {root: path.join(__dirname, "dist")}, (err) => {if (err) throw err});
 });
+app.post('', sessionCheck);
 app.post('/login', localLogin);
 app.post('/register', localRegister);
 app.get('*',

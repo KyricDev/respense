@@ -8,14 +8,26 @@ class Root extends React.Component<any, any>{
         this.state = {
             isOnLogin: true,
             name: '',
-            statusText: ''
+            statusText: '',
+            isLoggedIn: false
         }
         this.changeForm = this.changeForm.bind(this);
         this.register = this.register.bind(this);
         this.login = this.login.bind(this);
     }
     componentDidMount(){
-        console.log(document.cookie);
+        fetch(apiRoot + '', { 
+            method: 'POST',
+        })
+        .then(response => response.json())
+        .then(data => this.setState({
+            name: data.name, 
+            statusText: data.statusText, 
+            isLoggedIn: data.isLoggedIn
+        }))
+    }
+    componentDidUpdate(prevProps: any, prevState: any){
+        if (this.state.isLoggedIn) console.log("Route to Dashboard . . .");
     }
     changeForm(){
         let currentState = this.state.isOnLogin;
@@ -38,7 +50,8 @@ class Root extends React.Component<any, any>{
             console.log(response);
             this.setState({
                 name: response.name,
-                statusText: response.statusText
+                statusText: response.statusText,
+                isLoggedIn: response.isLoggedIn
             })
         })
         .catch( (error) => console.log(error) );
@@ -58,7 +71,8 @@ class Root extends React.Component<any, any>{
             console.log(response); 
             this.setState({
                 name: response.name,
-                statusText: response.statusText
+                statusText: response.statusText,
+                isLoggedIn: response.isLoggedIn
             });
         })    
         .catch( (err) => console.log(err) );
