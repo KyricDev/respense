@@ -56,7 +56,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(upload.none());
 app.use(express.static(path.join(__dirname, "dist/public/views/"), {index: false, extensions: ['html']}));
 app.use(express.static(path.join(__dirname, "dist/public/js/")));
-app.use(express.static(path.join(__dirname, "dist/public/css/"), {extensions: ['css']}));
+app.use(express.static(path.join(__dirname, "dist/public/css/")));
 app.use(session({
     name: 'respense.user',
     secret: 'secret respense',
