@@ -1,6 +1,6 @@
 import express from 'express';
 import { usercontext } from '../data/usercontext.js';
-import { User } from '../models/user.js';
+import User from '../models/user.js';
 
 export async function localRegister(req: express.Request, res: express.Response, next: express.NextFunction){
     console.log("Register API Called");
@@ -57,8 +57,17 @@ export async function localRegister(req: express.Request, res: express.Response,
     }
 
     try{
-        let newUser = new User(username, password);
-        await usercontext.create(newUser);
+        let newUser = new User({
+            username: username,
+            password: password,
+        });
+        newUser.initialize();
+        await usercontext.build({
+            id: newUser.id,
+            username: newUser.username,
+            password: newUser.password,
+            salt: newUser.salt,
+        }).save();
         res.status(202)
            .send({"statusText": "User Created", "isLoggedIn": false})
            .end();

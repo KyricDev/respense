@@ -1,22 +1,13 @@
-import { User as modelUser } from '../models/user.js';
-import express from 'express';
+import User from '../models/user.js';
 
 declare module 'express-serve-static-core'{
     export interface Request{
-        user: modelUser;
-    }
-}
-
-declare module 'passport'{
-    namespace Express{
-        export interface User{
-            id: modelUser["id"];    
-        }
+        user: User;
     }
 }
 
 declare module 'express-session'{
     export interface SessionData{
-        userid: modelUser["id"];
+        userid: User["id"];
     }
 }

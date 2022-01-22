@@ -1,7 +1,7 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
 import fs from 'fs';
-import  bcrypt  from "bcrypt";
-import { User as UserModel } from '../models/user.js';
+import User from '../models/user.js';
+import Expenses from '../models/expenses.js';
 
 function initSequelize(): Sequelize {
     let appsettings = JSON.parse(fs.readFileSync('src/appsettings.json', 'utf-8'));
@@ -23,19 +23,6 @@ export async function databaseconnectiontest(){
     }
 };
 
-class User extends Model{
-    public id!: string;
-    public username!: string;
-    public password!: string;
-    public salt!: string;
-
-    public validatePassword(password:string):boolean {
-        let hash = bcrypt.hashSync(password, this.salt);
-
-        if (hash != this.password) return false;
-        return true;
-    }
-}
 export const usercontext = User.init({
     id: {
         primaryKey: true,
@@ -59,11 +46,6 @@ export const usercontext = User.init({
     sequelize: connection,
     modelName: 'User'
 });
-class Expenses extends Model {
-    public id?: number;
-    public type?: string;
-    public value?: number;
-}
 export const expensescontext = Expenses.init({
     id: {
         primaryKey: true,

@@ -15,9 +15,8 @@ export class ExpenseList extends React.Component<any, any>{
         })
         .then(response => response.json())
         .then(data => {
-            let expenses: any = [];
             let array: any = data.expenses;
-            array.forEach((data: { id: any, type: any, value: any, description: any, isRevealed: boolean}) => {
+            let expenses = array.map((data: { id: any, type: any, value: any, description: any, isRevealed: boolean}) => {
                 let expense: any = new Object();
 
                 expense.id = data.id;
@@ -26,9 +25,10 @@ export class ExpenseList extends React.Component<any, any>{
                 expense.description = data.description;
                 expense.isRevealed = false;
 
-                expenses.push(expense);
-            })
-            this.setState({name: data.name, expenses: expenses})
+                return expense;
+            });
+            console.log(expenses);
+            this.setState({name: data.name, expenses: expenses});
         })
         .catch((err) => {
             if (err) console.log(err);

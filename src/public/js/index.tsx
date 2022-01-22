@@ -102,7 +102,7 @@ class Root extends React.Component<any, any>{
                 <button type="button" onClick={this.changeForm}>{formButton}</button>
                 <br />
                 <br />
-                <form method="post" /*action={formAction}*/ onSubmit={action} >
+                <form method="post" onSubmit={action} >
                     <input type="text" id="username" name="username" placeholder="username" autoComplete="username"></input>
                     <br />
                     <input type="password" id="password" name="password" placeholder="password" autoComplete="password"></input>

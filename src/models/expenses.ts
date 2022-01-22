@@ -1,12 +1,9 @@
-import { User } from './user.js';
+import User from './user.js';
+import { Model } from 'sequelize';
 
-export default class Expenses{
-    public id: string | undefined;
-    public userId: User["id"];
-    public type: string | undefined;
-    public value: number | undefined;
-
-    constructor(user: User){
-        this.userId = user.id;
-    }
+export default class Expenses extends Model {
+    public id!: string | undefined;
+    public userId!: User["id"];
+    public type!: string | undefined;
+    public value!: number | undefined;
 }
