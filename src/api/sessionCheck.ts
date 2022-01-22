@@ -26,4 +26,9 @@ export default async function (req: express.Request, res: express.Response, next
             return next();
         }
     }
+    else{
+        res.status(202)
+            .send({"statusText": "", "isLoggedIn": false})
+            .end();
+    }
 }

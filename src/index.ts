@@ -35,8 +35,8 @@ app.use(async (req, res, next) => {
     }
     */
     // basicAuth("Dummy0", "Dummy0");
-    try { await expensescontext.sync({ force: true }); }
-    catch(err){ console.log(err); }
+    // try { await expensescontext.sync({ force: true }); }
+    // catch(err){ console.log(err); }
     /*
     let expensessequelize = expensescontext
                             .build({
@@ -91,10 +91,9 @@ app.post('/addExpense', addExpense);
 app.post('', sessionCheck);
 app.post('/login', localLogin);
 app.post('/register', localRegister);
-app.get('*',
+/*app.get('*',
         (req: express.Request, res: express.Response) => {
-    res.writeHead(404, "Page does not Exist");
-    res.end("Page does not Exist X_X");
-})
+    res.status(404).send("Page does not Exist").end();
+})*/
 
 app.listen(port, () => console.log(`listening on port ${port}`));

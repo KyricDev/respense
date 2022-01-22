@@ -15,8 +15,7 @@ export class ExpenseList extends React.Component<any, any>{
         })
         .then(response => response.json())
         .then(data => {
-            let array: any = data.expenses;
-            let expenses = array.map((data: { id: any, type: any, value: any, description: any, isRevealed: boolean}) => {
+            let expenses = data.map((data: { id: any, type: any, value: any, description: any, isRevealed: boolean}) => {
                 let expense: any = new Object();
 
                 expense.id = data.id;
@@ -32,6 +31,12 @@ export class ExpenseList extends React.Component<any, any>{
         .catch((err) => {
             if (err) console.log(err);
         });
+    }
+    componentDidUpdate(prevProps: any, prevState: any) {
+        if (this.props.shouldReload) {
+            this.componentDidMount();
+            this.props.reloaded();
+        }
     }
     reveal(id: any, e: any){
         let expenses = this.state.expenses;

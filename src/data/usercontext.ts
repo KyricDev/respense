@@ -62,16 +62,27 @@ export const expensescontext = Expenses.init({
         allowNull: true,
     },
     month: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.DATEONLY,
+        allowNull: true,
+        defaultValue: null,
+    },
+    isRecurring: {
+        type: DataTypes.BOOLEAN,
         allowNull: true,
     },
-    year: {
-        type: DataTypes.INTEGER,
+    periodStart: {
+        type: DataTypes.DATEONLY,
         allowNull: true,
-    }
+        defaultValue: null,
+    },
+    periodEnd: {
+        type: DataTypes.DATEONLY,
+        allowNull: true,
+        defaultValue: null,
+    },
 },{
     sequelize: connection,
     modelName: 'Expenses'
 });
-User.hasMany(Expenses);
-Expenses.belongsTo(User);
+export const UserExpensesAssoc = User.hasMany(Expenses);
+export const ExpensesUserAssoc = Expenses.belongsTo(User);

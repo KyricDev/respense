@@ -16,12 +16,15 @@ export class AddExpense extends React.Component<any, any>{
         data.append("value", form[1].value);
         data.append("month", form[2].value);
         data.append("isChecked", form[3].checked);
+        data.append("periodStart", form[4].value);
+        data.append("periodEnd", form[5].value);
 
         fetch(apiRoot + 'addexpense', {
             method: 'POST',
             body: data
         })
         .then( (response) => console.log(response))
+        .then( () => {this.props.expenseAdded()})
         .catch( (err) => console.error(err) );
     }
     recurring(e: any){

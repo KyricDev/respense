@@ -2,6 +2,7 @@ import express from 'express';
 import { usercontext, expensescontext } from '../data/usercontext.js'; 
 
 export default async function (req: express.Request, res: express.Response, next: express.NextFunction){
+    /*
     res.status(200)
        .send({
             "name": "Hi",
@@ -21,4 +22,13 @@ export default async function (req: express.Request, res: express.Response, next
             ]
        })
        .end();
+    */
+    try{
+    let expenses = await expensescontext.findAll({ where: { UserId: req.session.userid }});
+    res.status(202).send(expenses).end();
+    }
+    catch(err){
+        console.log(err);
+    }
+    return next();
 }
