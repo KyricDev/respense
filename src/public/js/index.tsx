@@ -50,7 +50,6 @@ class Root extends React.Component<any, any>{
         })
         .then( (response) => response.json())
         .then( (response) => {
-            console.log(response);
             this.setState({
                 name: response.name,
                 statusText: response.statusText,
@@ -71,7 +70,6 @@ class Root extends React.Component<any, any>{
         })
         .then( (response) => response.json() )
         .then( (response) => {
-            console.log(response); 
             this.setState({
                 name: response.name,
                 statusText: response.statusText,

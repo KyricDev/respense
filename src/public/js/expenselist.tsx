@@ -27,7 +27,6 @@ export class ExpenseList extends React.Component<any, any>{
 
                 return expense;
             });
-            console.log(expenses);
             this.setState({name: data.name, expenses: expenses});
         })
         .catch((err) => {

@@ -61,8 +61,12 @@ export const expensescontext = Expenses.init({
         type: DataTypes.BIGINT,
         allowNull: true,
     },
-    description: {
-        type: DataTypes.STRING,
+    month: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
+    year: {
+        type: DataTypes.INTEGER,
         allowNull: true,
     }
 },{
