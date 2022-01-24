@@ -3,6 +3,7 @@ import { is } from 'sequelize/dist/lib/operators';
 import { usercontext } from '../data/usercontext.js';
 
 export default async function (req: express.Request, res: express.Response, next: express.NextFunction){
+    console.log(req.session);
     if (req.session.userid){
         try{ 
             let user = await usercontext.findOne({where: {id: req.session.userid}});

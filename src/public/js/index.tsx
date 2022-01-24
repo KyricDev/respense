@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { apiRoot } from './siteroot';
+import { apiRoot, siteRoot } from './siteroot';
 
 class Root extends React.Component<any, any>{
     constructor(props: any){
@@ -29,7 +29,7 @@ class Root extends React.Component<any, any>{
     componentDidUpdate(prevProps: any, prevState: any){
         if (this.state.isLoggedIn) {
             console.log("Route to Dashboard . . .");
-            window.location.assign(apiRoot + 'dashboard');
+            window.location.assign(siteRoot + 'dashboard');
         }
     }
     changeForm(){
@@ -79,14 +79,12 @@ class Root extends React.Component<any, any>{
         .catch( (err) => console.log(err) );
     }
     render(){
-        let formAction = "/login";
         let formState = "Login";
         let formButton = "to register";
         let confirmPassword = null;
         let spacing = null;
         let action = this.login;
         if (!this.state.isOnLogin){
-            formAction = "/register";
             formState = "Register";
             formButton = "to login";
             confirmPassword = <input type="password" id="confirmPassword" name="confirmPassword" placeholder="confirm password" autoComplete="password"></input>;

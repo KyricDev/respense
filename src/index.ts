@@ -3,6 +3,7 @@ import session from 'express-session';
 import path from 'path';
 import { localRegister } from './api/register.js';
 import { localLogin } from './api/login.js';
+import { localLogout } from './api/logout.js';
 import sessionCheck from './api/sessionCheck.js';
 import userInfo from './api/userInfo.js';
 import addExpense from './api/addexpense.js';
@@ -89,6 +90,7 @@ app.get('/dashboard',
 app.get('/userinfo', userInfo);
 app.post('/addExpense', addExpense);
 app.post('', sessionCheck);
+app.post('/signout', localLogout);
 app.post('/login', localLogin);
 app.post('/register', localRegister);
 /*app.get('*',

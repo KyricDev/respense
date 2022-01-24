@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { apiRoot } from './siteroot';
 import { ExpenseList } from './expenselist';
 import { AddExpense } from './addexpense';
+import { SignOut } from './signout';
 
 class Dashboard extends React.Component<any, any>{
     constructor(props: any){
@@ -33,6 +34,7 @@ class Dashboard extends React.Component<any, any>{
             <div>
                 {addExpense}
                 <ExpenseList shouldReload={shouldReload} reloaded={this.reset}/>
+                <SignOut />
                 <button onClick={this.addForm} >Add</button>
             </div>
         )
