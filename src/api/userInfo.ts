@@ -24,11 +24,11 @@ export default async function (req: express.Request, res: express.Response, next
        .end();
     */
     try{
-    let expenses = await expensescontext.findAll({ where: { UserId: req.session.userid }});
-    res.status(202).send(expenses).end();
+        let expenses = await expensescontext.findAll({ where: { UserId: req.session.userid }});
+        res.status(202).send(expenses).end();
     }
     catch(err){
         console.log(err);
     }
-    return next();
+    return;
 }

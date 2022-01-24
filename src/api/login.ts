@@ -19,21 +19,21 @@ export async function localLogin (req: express.Request, res: express.Response, n
                 "isLoggedIn": true
             })
            .end();
-        return next();
+        return;
     }
 
     if (username == "") {       
         res.status(404)
            .send({"statusText": "Username is required", "isLoggedIn": false})
            .end();
-        return next();
+        return;
     }
 
     if (password == "") {
         res.status(404)
            .send({"statusText": "Password is required", "isLoggedIn": false})
            .end();
-        return next();
+        return;
     }
 
     let user = await usercontext.findOne({where: {username: username}});
@@ -42,7 +42,7 @@ export async function localLogin (req: express.Request, res: express.Response, n
         res.status(404)
            .send({"statusText": "User not found", "isLoggedIn": false})
            .end();
-        return next();
+        return;
     }
 
     if (user.validatePassword(password)) {
@@ -55,11 +55,11 @@ export async function localLogin (req: express.Request, res: express.Response, n
                "isLoggedIn": true
             })
            .end();
-        return next();
+        return;
     }
 
     res.status(404)
        .send({"statusText": "Unexpected error during login", "isLoggedIn": false})
        .end();
-    return next();
+    return;
 }

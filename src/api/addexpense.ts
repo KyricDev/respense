@@ -33,5 +33,5 @@ export default async function (req: express.Request, res: express.Response, next
     })
     .end();
 
-    return next();
+    return;
 }

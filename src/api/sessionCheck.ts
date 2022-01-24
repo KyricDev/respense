@@ -12,23 +12,24 @@ export default async function (req: express.Request, res: express.Response, next
                     res.status(404)
                        .send({"statusText": "User not found", "isLoggedIn": false})
                        .end();
-                    return next();
+                    return;
                 });   
             }
             res.cookie("respense.cookie", user?.username);
             res.status(202)
                .send({"statusText": "User is already logged in", "isLoggedIn": true})
                .end();
-            return next();
+            return;
         }
         catch(err){
             console.log(err);
-            return next();
+            return;
         }
     }
     else{
         res.status(202)
             .send({"statusText": "", "isLoggedIn": false})
             .end();
+        return;
     }
 }

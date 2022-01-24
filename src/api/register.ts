@@ -18,28 +18,28 @@ export async function localRegister(req: express.Request, res: express.Response,
                "isLoggedIn": true 
             })
            .end();
-        return next();
+        return;
     }
 
     if (username == null || username == '') {       
         res.status(404)
            .send({"statusText": "Username is required", "isLoggedIn": false})
            .end();
-        return next();
+        return;
     }
 
     if (password == null || confirmPassword == null || password == '' || confirmPassword == '') {
         res.status(404)
            .send({"statusText": "Password is required", "isLoggedIn": false})
            .end();
-        return next();
+        return;
     }
 
     if (password != confirmPassword) {
         res.status(404)
            .send({"statusText": "Passwords do not match", "isLoggedIn": false})
            .end();
-        return next();
+        return;
     }
 
     try{
@@ -48,7 +48,7 @@ export async function localRegister(req: express.Request, res: express.Response,
             res.status(404)
                .send({"statusText": "User already exists", "isLoggedIn": false})
                .end();
-            return next();
+            return;
         }
     }
     catch(err){
@@ -71,7 +71,7 @@ export async function localRegister(req: express.Request, res: express.Response,
         res.status(202)
            .send({"statusText": "User Created", "isLoggedIn": false})
            .end();
-        return next();
+        return;
     }
     catch(err){
         console.log("User Creation Failed");
