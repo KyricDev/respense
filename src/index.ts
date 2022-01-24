@@ -5,7 +5,7 @@ import { localRegister } from './api/register.js';
 import { localLogin } from './api/login.js';
 import { localLogout } from './api/logout.js';
 import sessionCheck from './api/sessionCheck.js';
-import userInfo from './api/userInfo.js';
+import expenses from './api/expenses.js';
 import addExpense from './api/addexpense.js';
 import { usercontext, expensescontext } from './data/usercontext.js';
 import cookieParser from 'cookie-parser';
@@ -87,7 +87,7 @@ app.get('/dashboard',
         (err) => {if (err) throw err
     });
 });
-app.get('/userinfo', userInfo);
+app.get('/expenses', expenses);
 app.post('/addExpense', addExpense);
 app.post('', sessionCheck);
 app.post('/signout', localLogout);

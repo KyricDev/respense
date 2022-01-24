@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { apiRoot } from './siteroot';
 import { ExpenseList } from './expenselist';
 import { AddExpense } from './addexpense';
 import { SignOut } from './signout';

@@ -25,6 +25,17 @@ export default async function (req: express.Request, res: express.Response, next
     */
     try{
         let expenses = await expensescontext.findAll({ where: { UserId: req.session.userid }});
+
+        let newExpenses = expenses.map( expense => {
+            if (!expense.isRecurring) {
+                return ({
+                    "type": expense.type,
+                    "value": expense.value,
+                    "month": expense.getMonthString()
+                });
+            }
+        })
+
         res.status(202).send(expenses).end();
     }
     catch(err){

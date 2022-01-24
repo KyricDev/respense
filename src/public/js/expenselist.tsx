@@ -1,6 +1,28 @@
 import React from 'react';
 import { apiRoot } from './siteroot';
 
+class Expense extends React.Component<any, any> {
+    constructor(props: any) {
+        super(props);
+        this.state = {id: ''}
+        this.reveal = this.reveal.bind(this);
+    }
+    componentDidMount() {
+        this.setState({id: this.props.expense.id});
+    }
+    reveal(){
+        this.props.reveal(this.state.id);
+    }
+    render() {
+        return(
+            <div onClick={this.reveal}>
+                <div>{this.props.expense.type}: {this.props.expense.value}</div>
+                <div>{this.props.expense.description}</div>
+            </div>
+        )
+    }
+}
+
 export class ExpenseList extends React.Component<any, any>{
     constructor(props: any){
         super(props);
@@ -8,20 +30,20 @@ export class ExpenseList extends React.Component<any, any>{
             name: '',
             expenses: []
         }
+        this.reveal = this.reveal.bind(this);
     }
     componentDidMount(){
-        fetch(apiRoot + 'userinfo', {
+        fetch(apiRoot + 'expenses', {
             method: 'GET'
         })
         .then(response => response.json())
         .then(data => {
-            let expenses = data.map((data: { id: any, type: any, value: any, description: any, isRevealed: boolean}) => {
+            let expenses = data.map((data: { id: any, type: any, value: any, isRevealed: boolean}) => {
                 let expense: any = new Object();
 
                 expense.id = data.id;
                 expense.type = data.type;
                 expense.value = data.value;
-                expense.description = data.description;
                 expense.isRevealed = false;
 
                 return expense;
@@ -38,7 +60,7 @@ export class ExpenseList extends React.Component<any, any>{
             this.props.reloaded();
         }
     }
-    reveal(id: any, e: any){
+    reveal(id: any){
         let expenses = this.state.expenses;
         let newExpenses = expenses.map((expense: any) => {
             if (expense.id == id) expense.isRevealed = !expense.isRevealed;
@@ -48,19 +70,23 @@ export class ExpenseList extends React.Component<any, any>{
     }
     render() {
         let expenses = this.state.expenses;
-        let expensesList = expenses.map( (expense: {id: any, type: any, value: any, description: any, isRevealed: boolean}) => {
+        
+        let expensesList = expenses.map( (expense: {id: any, type: any, value: any, isRevealed: boolean}) => {
             if (expense.isRevealed)
             return (
+                /*
                 <div key={expense.id} onClick={this.reveal.bind(this, expense.id)}>
                     <div>{expense.type}: {expense.value}</div>
-                    <div>{expense.description}</div>
                 </div>
+                */
+               <Expense key={expense.id} expense={expense} reveal={this.reveal} />
             )
             else
             return (
                 <div key={expense.id} onClick={this.reveal.bind(this, expense.id)}>click me</div>
             )
         });
+        
         return (
             <div>
                 {expensesList}
