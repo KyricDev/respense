@@ -32,19 +32,63 @@ export default class Expenses extends Model {
             case "06": 
                 return "Jul"
             break;
-            case "08": 
+            case "07": 
                 return "Aug"
             break;
-            case "09": 
+            case "08": 
                 return "Sep"
             break;
-            case "10": 
+            case "09": 
                 return "Oct"
             break;
-            case "11": 
+            case "10": 
                 return "Nov"
             break;
-            case "12": 
+            case "11": 
+                return "Dec"
+            break;
+            default:
+                return "ERROR";
+            break;
+        }
+    }
+
+    public getMonthFromNumber(month: number): string{
+        switch (month){
+            case 0: 
+                return "Jan"
+            break;
+            case 1: 
+                return "Feb"
+            break;
+            case 2: 
+                return "Mar"
+            break;
+            case 3: 
+                return "Apr"
+            break;
+            case 4: 
+                return "May"
+            break;
+            case 5: 
+                return "Jun"
+            break;
+            case 6: 
+                return "Jul"
+            break;
+            case 7: 
+                return "Aug"
+            break;
+            case 8: 
+                return "Sep"
+            break;
+            case 9: 
+                return "Oct"
+            break;
+            case 10: 
+                return "Nov"
+            break;
+            case 11: 
                 return "Dec"
             break;
             default:

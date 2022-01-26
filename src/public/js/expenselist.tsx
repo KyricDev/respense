@@ -8,16 +8,18 @@ class Expense extends React.Component<any, any> {
         this.reveal = this.reveal.bind(this);
     }
     componentDidMount() {
-        this.setState({id: this.props.expense.id});
+        this.setState({id: this.props.id});
     }
     reveal(){
         this.props.reveal(this.state.id);
     }
     render() {
+        let expenses = this.props.expense.map( (expense: any) => {
+            return <div>{expense.type}: {expense.value}</div>
+        })
         return(
-            <div onClick={this.reveal}>
-                <div>{this.props.expense.type}: {this.props.expense.value}</div>
-                <div>{this.props.expense.description}</div>
+            <div key={this.state.id} onClick={this.reveal}>
+                {expenses}
             </div>
         )
     }
@@ -27,7 +29,6 @@ export class ExpenseList extends React.Component<any, any>{
     constructor(props: any){
         super(props);
         this.state = {
-            name: '',
             expenses: []
         }
         this.reveal = this.reveal.bind(this);
@@ -38,17 +39,22 @@ export class ExpenseList extends React.Component<any, any>{
         })
         .then(response => response.json())
         .then(data => {
-            let expenses = data.map((data: { id: any, type: any, value: any, isRevealed: boolean}) => {
+            let expenses = data.map((data: { month: any, 
+                                             id: any, 
+                                             expenses: [{ type: any, 
+                                                          value: any 
+                                             }]
+                                           }) => {
                 let expense: any = new Object();
 
                 expense.id = data.id;
-                expense.type = data.type;
-                expense.value = data.value;
+                expense.month = data.month;
+                expense.expenses = data.expenses;
                 expense.isRevealed = false;
 
                 return expense;
             });
-            this.setState({name: data.name, expenses: expenses});
+            this.setState({expenses: expenses});
         })
         .catch((err) => {
             if (err) console.log(err);
@@ -71,7 +77,7 @@ export class ExpenseList extends React.Component<any, any>{
     render() {
         let expenses = this.state.expenses;
         
-        let expensesList = expenses.map( (expense: {id: any, type: any, value: any, isRevealed: boolean}) => {
+        let expensesList = expenses.map( (expense: { id: any, month: any, isRevealed: boolean, expenses: {type: any, value: any}}) => {
             if (expense.isRevealed)
             return (
                 /*
@@ -79,11 +85,11 @@ export class ExpenseList extends React.Component<any, any>{
                     <div>{expense.type}: {expense.value}</div>
                 </div>
                 */
-               <Expense key={expense.id} expense={expense} reveal={this.reveal} />
+               <Expense key={expense.id} expense={expense.expenses} id={expense.id} reveal={this.reveal} />
             )
             else
             return (
-                <div key={expense.id} onClick={this.reveal.bind(this, expense.id)}>click me</div>
+                <div key={expense.id} onClick={this.reveal.bind(this, expense.id)}>{expense.month}</div>
             )
         });
         
