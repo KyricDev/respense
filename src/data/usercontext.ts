@@ -61,7 +61,7 @@ export const expensescontext = Expenses.init({
         type: DataTypes.BIGINT,
         allowNull: true,
     },
-    month: {
+    date: {
         type: DataTypes.DATEONLY,
         allowNull: true,
         defaultValue: null,
@@ -79,6 +79,11 @@ export const expensescontext = Expenses.init({
         type: DataTypes.DATEONLY,
         allowNull: true,
         defaultValue: null,
+    },
+    isComplete: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
     },
 },{
     sequelize: connection,

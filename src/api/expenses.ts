@@ -1,3 +1,5 @@
+import exp from 'constants';
+import e from 'express';
 import express from 'express';
 import { usercontext, expensescontext } from '../data/usercontext.js'; 
 
@@ -23,65 +25,87 @@ export default async function (req: express.Request, res: express.Response, next
        })
        .end();
     */
+    /*
     try{
-        let rawExpenses = await expensescontext.findAll({ where: { UserId: req.session.userid }});
-        let expenses: Object[] = [];
-
-        rawExpenses.forEach( expense => {
-            if (!expense.isRecurring) {
-                expenses.push ({
-                    "type": expense.type,
-                    "value": expense.value,
-                    "month": parseInt( expense.month.slice(5, 7) )
-                    //"month": expense.getMonthString()
-                });
-            }
-            else {
-                let periodStart: number = parseInt( expense.periodStart.slice(0, 4) ) + parseInt( expense.periodStart.slice(5, 7) );
-                let periodEnd: number = parseInt( expense.periodEnd.slice(0, 4) ) + parseInt( expense.periodEnd.slice(5, 7) );
-                let monthPeriod: number = periodEnd - periodStart;
-
-                for (let i = 0; i < monthPeriod; i++) {
-                    expenses.push({
-                      "type": expense.type,
-                      "value": expense.value,
-                      "month": parseInt( expense.periodStart.slice(5, 7) ) + i
-                      //"month": expense.getMonthFromNumber( parseInt( expense.periodStart.slice(5, 7) ) + i )
-                    })
-                }
-            }
-        })
-
-        expenses.sort( (element1: any, element2: any) => {
-            return element1.month - element2.month
-        })
-        let newExpenses: any[] = [];
-        let expensesIndex = 0;
-        expenses.forEach( (current: any, index: number, expense: any) => {
-            if (index == 0 || current.month != expense[index - 1].month) {
-                newExpenses.push({
-                    "month": current.month, 
-                    "id": expensesIndex,
-                    "expenses": [{
-                        "type": current.type,
-                        "value": current.value
-                    }]
-                });
-                expensesIndex++;
-                return;
-            }
-            else{
-                newExpenses[expensesIndex - 1].expenses.push({
-                    "type": current.type,
-                    "value": current.value
-                })
-            }
-        })
-
-        res.status(202).send(newExpenses).end();
     }
     catch(err){
         console.log(err);
     }
     return;
+    */
+    let rawExpense = await expensescontext.findAll({ where: { UserId: req.session.userid }});
+    rawExpense.sort( (expense1, expense2) => {
+        let expense1flt = parseFloat(expense1.date.slice(0, 4)) + ( parseFloat(expense1.date.slice(5, 7)) / 12 );
+        let expense2flt = parseFloat(expense2.date.slice(0, 4)) + ( parseFloat(expense2.date.slice(5, 7)) / 12 );
+        return expense1flt - expense2flt;
+    });
+    let expenses: any = [];
+    let incYear: number = 0;
+    let incMonths: number = 0;
+    rawExpense.map( (current, index, array) => {
+        let year = parseInt(current.date.slice(0, 4));
+        let month = parseInt(current.date.slice(5, 7));
+        let lastYear = year;
+        let lastMonth = month;
+        if (index != 0){
+            lastYear = parseInt(array[index - 1].date.slice(0, 4));
+            lastMonth = parseInt(array[index - 1].date.slice(5, 7));
+        }
+        //console.log(`${index} -- ${year} || ${lastYear}`);
+        if (index == 0){
+            expenses.push({
+                "year": year,
+                "months": [{
+                    "month": current.date.slice(5, 7),
+                    "expenses": [{
+                        "type": current.type,
+                        "value": current.value,
+                        "id": current.id,
+                    }]
+                }],
+            })
+        }
+        else if (year != lastYear) {
+            incYear++;
+            incMonths = 0;
+            expenses.push({
+                "year": year,
+                "months": [{
+                    "month": current.date.slice(5, 7),
+                    "expenses": [{
+                        "type": current.type,
+                        "value": current.value,
+                        "id": current.id,
+                    }]
+                }],
+            })
+        }
+        else if (month != lastMonth){
+            incMonths++;
+            expenses[incYear].months.push({
+                "month": current.date.slice(5, 7),
+                "expenses": [{
+                    "type": current.type,
+                    "value": current.value,
+                    "id": current.id,
+                }]
+            })
+        }
+        else{
+            expenses[incYear].months[incMonths].expenses.push({
+                "type": current.type,
+                "value": current.value,
+                "id": current.id,
+            })
+        }
+    })
+    /*
+    expenses.forEach( (expense: any) => {
+        console.log(expense.year);
+        expense.months.forEach( (list: any) => {
+            console.log(list);
+        })
+    })
+    */
+    res.status(202).send(expenses).end();
 }

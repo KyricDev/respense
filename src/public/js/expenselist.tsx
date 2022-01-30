@@ -1,27 +1,41 @@
 import React from 'react';
 import { apiRoot } from './siteroot';
 
-class Expense extends React.Component<any, any> {
+class Month extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
-        this.state = {id: ''}
+        this.state = {
+            month: '', 
+            isRevealed: false
+        }
         this.reveal = this.reveal.bind(this);
     }
     componentDidMount() {
-        this.setState({id: this.props.id});
+        this.setState({month: this.props.expenses.month})
     }
     reveal(){
-        this.props.reveal(this.state.id);
+        let revealState = this.state.isRevealed
+        this.setState({isRevealed: !revealState});
     }
     render() {
-        let expenses = this.props.expense.map( (expense: any) => {
-            return <div>{expense.type}: {expense.value}</div>
-        })
-        return(
-            <div key={this.state.id} onClick={this.reveal}>
-                {expenses}
-            </div>
-        )
+        if (this.state.isRevealed){
+            let expenses = this.props.expenses.expenses.map( (expense: any) => {
+                return <div key={expense.id} >{expense.type}: {expense.value}</div>
+            })
+            return (
+                <div>
+                    <div onClick={this.reveal}>{this.state.month}</div>
+                    {expenses}
+                </div>
+            )
+        }
+        else{
+            return (
+                <div>
+                    <div onClick={this.reveal}>{this.state.month}</div>
+                </div>
+            )
+        }
     }
 }
 
@@ -39,37 +53,20 @@ export class ExpenseList extends React.Component<any, any>{
         })
         .then(response => response.json())
         .then(data => {
-            let expenses = data.map((data: { month: any, 
-                                             id: any, 
-                                             expenses: [{ type: any, 
-                                                          value: any 
-                                             }]
-                                           }) => {
-                let expense: any = new Object();
-
-                expense.id = data.id;
-                expense.month = data.month;
-                expense.expenses = data.expenses;
-                expense.isRevealed = false;
-
-                return expense;
-            });
-            this.setState({expenses: expenses});
+            console.log(data);
+            data.forEach( (data: any) => {
+                data.isRevealed = false;
+            })
+            this.setState({expenses: data});
         })
         .catch((err) => {
             if (err) console.log(err);
         });
     }
-    componentDidUpdate(prevProps: any, prevState: any) {
-        if (this.props.shouldReload) {
-            this.componentDidMount();
-            this.props.reloaded();
-        }
-    }
-    reveal(id: any){
+    reveal(year: any){
         let expenses = this.state.expenses;
         let newExpenses = expenses.map((expense: any) => {
-            if (expense.id == id) expense.isRevealed = !expense.isRevealed;
+            if (expense.year == year) expense.isRevealed = !expense.isRevealed;
             return expense;
         })
         this.setState({expenses: newExpenses});
@@ -77,19 +74,23 @@ export class ExpenseList extends React.Component<any, any>{
     render() {
         let expenses = this.state.expenses;
         
-        let expensesList = expenses.map( (expense: { id: any, month: any, isRevealed: boolean, expenses: {type: any, value: any}}) => {
-            if (expense.isRevealed)
-            return (
-                /*
-                <div key={expense.id} onClick={this.reveal.bind(this, expense.id)}>
-                    <div>{expense.type}: {expense.value}</div>
-                </div>
-                */
-               <Expense key={expense.id} expense={expense.expenses} id={expense.id} reveal={this.reveal} />
-            )
+        let expensesList = expenses.map( (expense: any) => {
+            if (expense.isRevealed){
+                let months = expense.months.map( (month: any) => {
+                    return <Month key={month.month} expenses={month} />
+                }) 
+                return (
+                    <div key={expense.year} >
+                        <div onClick={this.reveal.bind(this, expense.year)}>{expense.year}</div>
+                        {months}
+                    </div>
+                )
+            }
             else
             return (
-                <div key={expense.id} onClick={this.reveal.bind(this, expense.id)}>{expense.month}</div>
+                <div key={expense.year} >
+                    <div onClick={this.reveal.bind(this, expense.year)}>{expense.year}</div>
+                </div>
             )
         });
         

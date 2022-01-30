@@ -4,10 +4,11 @@ export default class Expenses extends Model {
     public id!: string | undefined;
     public type!: string | undefined;
     public value!: number | undefined;
-    public month!: string;
+    public date!: string;
     public isRecurring!: boolean | undefined;
     public periodStart!: string;
     public periodEnd!: string;
+    public isComplete!: boolean;
 
     private getMonth(month: string): string{
         switch (month.slice(5, 7)){
@@ -98,7 +99,7 @@ export default class Expenses extends Model {
     }
 
     public getMonthString(): string{
-        return this.getMonth(this.month);
+        return this.getMonth(this.date);
     }
 
     public getMonthStart(): string{
