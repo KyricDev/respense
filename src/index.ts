@@ -4,12 +4,14 @@ import path from 'path';
 import { localRegister } from './api/register.js';
 import { localLogin } from './api/login.js';
 import { localLogout } from './api/logout.js';
+import { googleGetCode, googleLogin } from './api/googlelogin.js';
 import sessionCheck from './api/sessionCheck.js';
 import expenses from './api/expenses.js';
 import addExpense from './api/addexpense.js';
 import { usercontext, expensescontext } from './data/usercontext.js';
 import cookieParser from 'cookie-parser';
 import multer from 'multer';
+import { google } from 'googleapis';
 
 const app = express();
 const port: number = 80;
@@ -51,7 +53,7 @@ app.use(async (req, res, next) => {
         console.log(err);
     }
     */
-    next();
+    next()
 });
 app.use(cookieParser());
 app.use(express.json());
@@ -88,14 +90,31 @@ app.get('/dashboard',
     });
 });
 app.get('/expenses', expenses);
+app.get('/trygoogle', googleGetCode);
+app.get('/googleoauth*', googleLogin);
+/*
+async (req: express.Request, res: express.Response) => {
+    console.log(req.query.code);
+    const code: any = req.query.code;
+    const googleClient = new google.auth.OAuth2(
+        "425711147539-3foeia0vc7n80d3i7sgi2j6jblfgsmpo.apps.googleusercontent.com", 
+        "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", 
+        "http://localhost/googleoauth"
+    );
+    const {tokens} = await googleClient.getToken(code);
+    console.log(tokens);
+    googleClient.setCredentials(tokens);
+    res.status(202).send("Google Called Back");
+});
+*/
 app.post('/addExpense', addExpense);
 app.post('', sessionCheck);
 app.post('/signout', localLogout);
 app.post('/login', localLogin);
 app.post('/register', localRegister);
-/*app.get('*',
+app.get('*',
         (req: express.Request, res: express.Response) => {
     res.status(404).send("Page does not Exist").end();
-})*/
+});
 
 app.listen(port, () => console.log(`listening on port ${port}`));
