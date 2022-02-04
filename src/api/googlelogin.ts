@@ -1,10 +1,13 @@
 import express from 'express';
 import { google } from 'googleapis';
 import path from 'path';
+import redirect from 'url';
+import jwt from 'jsonwebtoken';
+import { usercontext } from '../data/usercontext.js';
 
 const scope = [
     //'https://www.googleapis.com/auth/contacts.readonly',
-    'https://www.googleapis.com/auth/userinfo.profile',
+    //'https://www.googleapis.com/auth/userinfo.profile',
     'https://www.googleapis.com/auth/userinfo.email',
     //'https://www.googleapis.com/auth/user.emails.read',
     'profile',
@@ -28,22 +31,26 @@ export async function googleLogin (req: express.Request, res: express.Response, 
         console.log(req.query.code);
         const code: any = req.query.code;
         const { tokens } = await googleClient.getToken(code);
+        //console.log(tokens);
         googleClient.setCredentials(tokens);
-        const people = google.people({
-            version: 'v1',
-            //auth: 'AIzaSyAVnFgO6jKNto714EaC_RV7jWfWa0Q-jK8',
-            auth: googleClient,
-        });
-        let info = await people.people.get(({
-            resourceName: 'people/me',
-            personFields: 'emailAddresses'
-        }));
-        console.log(info);
+        const idToken: any = tokens.id_token;
+        const tokenData: any =jwt.decode(idToken);
+        req.session.userid = tokenData.sub;
+        req.session.isOAuth = true;
+        req.session.name = tokenData.name;
+        res.redirect(redirect.format({ pathname: "/" }));
+        /*
+        res.send({
+                "name": info.data.etag,
+                "statusText": "User Logged In",
+                "isLoggedIn": true,
+            });
+        */
+        return;
     }
     catch (err) {
         console.log(err);
     }
-    
-    res.status(202).send("End");
+
     return;
 }

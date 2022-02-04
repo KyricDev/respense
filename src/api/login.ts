@@ -8,7 +8,18 @@ export async function localLogin (req: express.Request, res: express.Response, n
     //let password = req.body.password;
     let username = "Dummy0";
     let password = "Dummy0";
-
+    
+    if (req.session.isOAuth){
+        res.status(202)
+           .send({
+                "name": req.session.name, 
+                "statusText": "A user is already logged in", 
+                "isLoggedIn": true
+            })
+           .end();
+        return;
+    }
+    
     if (req.session.userid) {
         let user = await usercontext.findOne({ where: { id: req.session.userid }});
         res.cookie("respense.cookie", user?.username);
@@ -54,7 +65,6 @@ export async function localLogin (req: express.Request, res: express.Response, n
                "statusText": "User logged in", 
                "isLoggedIn": true
             })
-           .end();
         return;
     }
 

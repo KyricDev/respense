@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { apiRoot, siteRoot } from './siteroot';
-
+import { OAuthButton } from './oauthbutton';
+ 
 class Root extends React.Component<any, any>{
     constructor(props: any){
         super(props);
@@ -109,6 +110,7 @@ class Root extends React.Component<any, any>{
                     <button type="submit">{formState.toLowerCase()}</button>
                     {this.state.statusText}
                 </form>
+                <OAuthButton />
             </div>
         )
     }

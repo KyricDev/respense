@@ -3,7 +3,19 @@ import { is } from 'sequelize/dist/lib/operators';
 import { usercontext } from '../data/usercontext.js';
 
 export default async function (req: express.Request, res: express.Response, next: express.NextFunction){
+    console.log("SessionCheck Called");
     console.log(req.session);
+    if (req.session.isOAuth){
+        res.status(202)
+           .send({
+                "name": req.session.name, 
+                "statusText": "A user is already logged in", 
+                "isLoggedIn": true
+            })
+           .end();
+        return;
+    }
+    
     if (req.session.userid){
         try{ 
             let user = await usercontext.findOne({where: {id: req.session.userid}});

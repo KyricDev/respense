@@ -26,7 +26,7 @@ export async function databaseconnectiontest(){
 export const usercontext = User.init({
     id: {
         primaryKey: true,
-        type: DataTypes.UUID,
+        type: DataTypes.STRING,
         defaultValue: DataTypes.UUIDV4,
         allowNull: false,
     },
@@ -85,9 +85,13 @@ export const expensescontext = Expenses.init({
         allowNull: true,
         defaultValue: false,
     },
+    UserId: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    }
 },{
     sequelize: connection,
     modelName: 'Expenses'
 });
-export const UserExpensesAssoc = User.hasMany(Expenses);
-export const ExpensesUserAssoc = Expenses.belongsTo(User);
+// export const UserExpensesAssoc = User.hasMany(Expenses);
+// export const ExpensesUserAssoc = Expenses.belongsTo(User);

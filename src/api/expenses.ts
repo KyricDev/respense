@@ -33,6 +33,11 @@ export default async function (req: express.Request, res: express.Response, next
     }
     return;
     */
+    console.log("Find Expenses Called");
+    let result = await expensescontext.findOne({where: {UserId: req.session.userid}})
+                         .catch(err => console.log(err));
+    if (!result) return res.status(202).end();
+    
     let rawExpense = await expensescontext.findAll({ where: { UserId: req.session.userid }});
     rawExpense.sort( (expense1, expense2) => {
         let expense1flt = parseFloat(expense1.date.slice(0, 4)) + ( parseFloat(expense1.date.slice(5, 7)) / 12 );

@@ -9,5 +9,7 @@ declare module 'express-serve-static-core'{
 declare module 'express-session'{
     export interface SessionData{
         userid: User["id"];
+        isOAuth: boolean;
+        name: string;
     }
 }

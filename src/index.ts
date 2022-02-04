@@ -38,6 +38,8 @@ app.use(async (req, res, next) => {
     }
     */
     // basicAuth("Dummy0", "Dummy0");
+    // try { await usercontext.sync({ force: true }); }
+    // catch(err){ console.log(err); }
     // try { await expensescontext.sync({ force: true }); }
     // catch(err){ console.log(err); }
     /*
@@ -77,7 +79,8 @@ app.get(['', '/login'],
     res.sendFile(
         '/views/index.html', 
         {root: path.join(__dirname, "dist")}, 
-        (err) => {if (err) throw err
+        (err) => {
+            if (err) console.log(err)
     });
 });
 app.get('/dashboard', 
@@ -90,7 +93,7 @@ app.get('/dashboard',
     });
 });
 app.get('/expenses', expenses);
-app.get('/trygoogle', googleGetCode);
+app.post('/trygoogle', googleGetCode);
 app.get('/googleoauth*', googleLogin);
 /*
 async (req: express.Request, res: express.Response) => {
