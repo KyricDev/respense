@@ -3,6 +3,58 @@ import e from 'express';
 import express from 'express';
 import { usercontext, expensescontext } from '../data/usercontext.js'; 
 
+function parseMonth(month: string): string {
+    let monthStr = '';
+    switch (month){
+        case '1':
+        case '01':
+            monthStr = 'JAN';
+        break;
+        case '2':
+        case '02':
+            monthStr = 'FEB';
+        break;
+        case '3':
+        case '03':
+            monthStr = 'MAR';
+        break;
+        case '4':
+        case '04':
+            monthStr = 'APR';
+        break;
+        case '5':
+        case '05':
+            monthStr = 'MAY';
+        break;
+        case '6':
+        case '06':
+            monthStr = 'JUN';
+        break;
+        case '7':
+        case '07':
+            monthStr = 'JUL';
+        break;
+        case '8':
+        case '08':
+            monthStr = 'AUG';
+        break;
+        case '9':
+        case '09':
+            monthStr = 'SEP';
+        break;
+        case '10':
+            monthStr = 'OCT';
+        break;
+        case '11':
+            monthStr = 'NOV';
+        break;
+        case '12':
+            monthStr = 'DEC';
+        break;
+    }
+    return monthStr;
+}
+
 export default async function (req: express.Request, res: express.Response, next: express.NextFunction){
     /*
     res.status(200)
@@ -61,7 +113,7 @@ export default async function (req: express.Request, res: express.Response, next
             expenses.push({
                 "year": year,
                 "months": [{
-                    "month": current.date.slice(5, 7),
+                    "month": parseMonth(current.date.slice(5, 7)),
                     "expenses": [{
                         "type": current.type,
                         "value": current.value,
@@ -76,7 +128,7 @@ export default async function (req: express.Request, res: express.Response, next
             expenses.push({
                 "year": year,
                 "months": [{
-                    "month": current.date.slice(5, 7),
+                    "month": parseMonth(current.date.slice(5, 7)),
                     "expenses": [{
                         "type": current.type,
                         "value": current.value,
@@ -88,7 +140,7 @@ export default async function (req: express.Request, res: express.Response, next
         else if (month != lastMonth){
             incMonths++;
             expenses[incYear].months.push({
-                "month": current.date.slice(5, 7),
+                "month": parseMonth(current.date.slice(5, 7)),
                 "expenses": [{
                     "type": current.type,
                     "value": current.value,

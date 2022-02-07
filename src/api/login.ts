@@ -17,6 +17,7 @@ export async function localLogin (req: express.Request, res: express.Response, n
                 "isLoggedIn": true
             })
            .end();
+        res.cookie("respense.cookie", req.session.name);
         return;
     }
     
