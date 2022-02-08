@@ -55,11 +55,11 @@ export const expensescontext = Expenses.init({
     },
     type: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
     },
     value: {
         type: DataTypes.BIGINT,
-        allowNull: true,
+        allowNull: false,
     },
     date: {
         type: DataTypes.DATEONLY,

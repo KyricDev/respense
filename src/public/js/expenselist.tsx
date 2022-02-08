@@ -63,6 +63,12 @@ export class ExpenseList extends React.Component<any, any>{
             if (err) console.log(err);
         });
     }
+    componentDidUpdate(prevProps: any, prevState: any) {
+        if (this.props.shouldReload) {
+            this.componentDidMount();
+            this.props.reloaded();
+        }
+    }
     reveal(year: any){
         let expenses = this.state.expenses;
         let newExpenses = expenses.map((expense: any) => {
