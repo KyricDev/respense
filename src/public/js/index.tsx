@@ -109,25 +109,23 @@ class Root extends React.Component<any, any>{
             <div className="flex center-column column">
                 <div className="fira-mono title">RESPENSE</div>
                 <div className="roboto italic">"Track your Responsibilies"</div>
-                <br />
                 <div className="flex row space-evenly center-column slider-container background-green">
                     <div className={"absolute slider-button background-yellow slider-position" + slider}></div>    
                     {signInButton}
                     {signUpButton}
                 </div>
-                <br />
-                <br />
-                <form method="post" onSubmit={action} >
-                    <input className="roboto field" type="text" id="username" name="username" placeholder="username" autoComplete="username"></input>
-                    <br />
-                    <input className="roboto field" type="password" id="password" name="password" placeholder="password" autoComplete="password"></input>
-                    <br />
+                <form className="flex column center-column" method="post" onSubmit={action} >
+                    <input className="roboto field" type="text" id="username" name="username" placeholder="username" autoComplete="username" ></input>
+                    <input className="roboto field" type="password" id="password" name="password" placeholder="password" ></input>
                     {confirmPassword}
-                    {spacing}
-                    <br />
-                    <button type="submit">{formState.toLowerCase()}</button>
-                    {this.state.statusText}
+                    <button className="background-green submit-button roboto hover" type="submit">{formState.toUpperCase()}</button>
+                    <div className="roboto status-text">{this.state.statusText}</div>
                 </form>
+                <div className="flex row space-evenly center-column divider-container">
+                    <span className="divider"></span>
+                    <span className="divider-text roboto">Or sign in with</span>
+                    <span className="divider"></span>
+                </div>
                 <OAuthButton />
             </div>
         )
