@@ -12,7 +12,7 @@ export async function localLogin (req: express.Request, res: express.Response, n
     if (req.session.isOAuth){
         res.status(202)
            .send({
-                "name": req.session.name, 
+                //"name": req.session.name, 
                 "statusText": "A user is already logged in", 
                 "isLoggedIn": true
             })
@@ -26,7 +26,7 @@ export async function localLogin (req: express.Request, res: express.Response, n
         res.cookie("respense.cookie", user?.username);
         res.status(202)
            .send({
-                "name": user?.username, 
+                //"name": user?.username, 
                 "statusText": "A user is already logged in", 
                 "isLoggedIn": true
             })
@@ -62,7 +62,7 @@ export async function localLogin (req: express.Request, res: express.Response, n
         res.cookie("respense.cookie", user?.username);
         res.status(202)
            .send({
-               "name": user.username, 
+               //"name": user.username, 
                "statusText": "User logged in", 
                "isLoggedIn": true
             })

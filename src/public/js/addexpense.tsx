@@ -58,10 +58,6 @@ export class AddExpense extends React.Component<any, any>{
     }
     render(){
         let isRecurring = this.state.isRecurring;
-        let month = {value: ''}
-        let period = {value: ''};
-        if (isRecurring) period = null;
-        else month = null;
 
         return(
             <div className="absolute">

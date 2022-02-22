@@ -6,9 +6,10 @@ export default async function (req: express.Request, res: express.Response, next
     console.log("SessionCheck Called");
     console.log(req.session);
     if (req.session.isOAuth){
+        res.cookie('respense.cookie', req.session.name);
         res.status(202)
            .send({
-                "name": req.session.name, 
+                //"name": req.session.name, 
                 "statusText": "A user is already logged in", 
                 "isLoggedIn": true
             })

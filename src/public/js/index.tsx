@@ -10,13 +10,15 @@ class Root extends React.Component<any, any>{
             isOnLogin: true,
             name: '',
             statusText: '',
-            isLoggedIn: false
+            isLoggedIn: false,
+            initialState: true
         }
         this.changeForm = this.changeForm.bind(this);
         this.register = this.register.bind(this);
         this.login = this.login.bind(this);
     }
     componentDidMount(){
+        this.setState({initialState: true});
         fetch(apiRoot + '', { 
             method: 'POST',
         })
@@ -35,7 +37,11 @@ class Root extends React.Component<any, any>{
     }
     changeForm(){
         let currentState = this.state.isOnLogin;
-        this.setState({ isOnLogin: !currentState, statusText: '' });
+        this.setState({ 
+            isOnLogin: !currentState, 
+            statusText: '', 
+            initialState: false 
+        });
     }
     register(e: any){
         e.preventDefault();
@@ -81,28 +87,40 @@ class Root extends React.Component<any, any>{
     }
     render(){
         let formState = "Login";
-        let formButton = "to register";
         let confirmPassword = null;
         let spacing = null;
         let action = this.login;
+        let signInButton = <button className="roboto slider-font slider-button to-front" type="button" >Sign In</button>
+        let signUpButton = <button className="roboto slider-font slider-button to-front hover" type="button" onClick={this.changeForm} >Sign Up</button>
+        let slider = "";
+        if (!this.state.initialState){
+            slider = " slide-backward";
+        }
         if (!this.state.isOnLogin){
             formState = "Register";
-            formButton = "to login";
-            confirmPassword = <input type="password" id="confirmPassword" name="confirmPassword" placeholder="confirm password" autoComplete="password"></input>;
+            confirmPassword = <input className="roboto field" type="password" id="confirmPassword" name="confirmPassword" placeholder="confirm password" autoComplete="password"></input>;
             spacing = <br />;
             action = this.register;
+            signInButton = <button className="roboto slider-font slider-button to-front hover" type="button" onClick={this.changeForm} >Sign In</button>
+            signUpButton = <button className="roboto slider-font slider-button to-front" type="button" >Sign Up</button>
+            slider = " slide-forward";
         }
         return(
-            <div>
-                <div>{formState} your Account</div>
+            <div className="flex center-column column">
+                <div className="fira-mono title">RESPENSE</div>
+                <div className="roboto italic">"Track your Responsibilies"</div>
                 <br />
-                <button type="button" onClick={this.changeForm}>{formButton}</button>
+                <div className="flex row space-evenly center-column slider-container background-green">
+                    <div className={"absolute slider-button background-yellow slider-position" + slider}></div>    
+                    {signInButton}
+                    {signUpButton}
+                </div>
                 <br />
                 <br />
                 <form method="post" onSubmit={action} >
-                    <input type="text" id="username" name="username" placeholder="username" autoComplete="username"></input>
+                    <input className="roboto field" type="text" id="username" name="username" placeholder="username" autoComplete="username"></input>
                     <br />
-                    <input type="password" id="password" name="password" placeholder="password" autoComplete="password"></input>
+                    <input className="roboto field" type="password" id="password" name="password" placeholder="password" autoComplete="password"></input>
                     <br />
                     {confirmPassword}
                     {spacing}

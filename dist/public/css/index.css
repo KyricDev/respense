@@ -1,0 +1,111 @@
+body{
+    padding: 0px;
+    margin: 0px;
+    background-color:  #FCF5C7;
+}
+button{
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+}
+input{
+    border: none;
+    margin: 0px;
+    padding: 0px;
+}
+.fira-mono{
+    font-family: 'Fira Mono', monospace;
+}
+.roboto{
+    font-family: 'Roboto', sans-serif;
+}
+.italic{
+    font-style: italic;
+    font-size: 10px;
+    font-weight: 100;
+}
+.title{
+    font-size: 48px;
+}
+.slider-font{
+    font-size: 10px;
+}
+.flex{
+    display: flex;
+    height: 100vh;
+}
+.absolute{
+    position: absolute
+}
+.row{
+    flex-direction: row;
+}
+.column{
+    flex-direction: column;
+}
+.center-column{
+    align-items: center;
+}
+.center-row{
+    justify-content: center;
+}
+.space-evenly{
+    justify-content: space-evenly;
+}
+.background-yellow{
+    background-color: #FCF5C7;
+}
+.background-green{
+    background-color: #ADF7B6;
+}
+.to-front{
+    z-index: 1;
+}
+.slider-container{
+    border-radius: 30px;
+    width: 80px;
+    height: 14px;
+    padding: 0px 1px;
+}
+.slider-button{
+    border-radius: 30px;
+    width: 39px;
+    height: 12px;
+}
+.slider-position{
+    transform: translateX(-20px);
+}
+.hover:hover{
+    cursor: pointer;
+}
+.slide-forward{
+    animation-name: slide-forward;
+    animation-duration: 300ms;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    animation-direction: normal;
+}
+.slide-backward{
+    animation-name: slide-backward;
+    animation-duration: 300ms;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    animation-direction: normal;
+}
+@keyframes slide-forward{
+    from {transform: translateX(-20px)}
+    to {transform: translateX(20px)}
+}
+@keyframes slide-backward{
+    from {transform: translateX(20px)}
+    to {transform: translateX(-20px)}
+}
+.field{
+    border: 1px solid black;
+    border-radius: 15px;
+    background-color: white;
+    width: 229px;
+    height: 30px;
+    font-size: 10px;
+    padding-left: 10px;
+}
