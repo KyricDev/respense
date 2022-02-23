@@ -95,10 +95,11 @@ class Root extends React.Component<any, any>{
         let slider = "";
         if (!this.state.initialState){
             slider = " slide-backward";
+            confirmPassword = <input className="roboto field slide-out" type="password" id="confirmPassword" name="confirmPassword" placeholder="confirm password" autoComplete="password"></input>;
         }
         if (!this.state.isOnLogin){
             formState = "Register";
-            confirmPassword = <input className="roboto field" type="password" id="confirmPassword" name="confirmPassword" placeholder="confirm password" autoComplete="password"></input>;
+            confirmPassword = <input className="roboto field slide-in" type="password" id="confirmPassword" name="confirmPassword" placeholder="confirm password" autoComplete="password"></input>;
             spacing = <br />;
             action = this.register;
             signInButton = <button className="roboto slider-font slider-button to-front hover" type="button" onClick={this.changeForm} >Sign In</button>
