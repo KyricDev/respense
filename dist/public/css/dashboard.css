@@ -1,3 +1,74 @@
 .absolute{
     position: absolute;
 }
+.relative{
+    position: relative;
+}
+body{
+    padding: 0px;
+    margin: 0px;
+    background-color:  #FCF5C7;
+}
+button{
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+}
+input{
+    border: none;
+    margin: 0px;
+    padding: 0px;
+}
+.fira-mono{
+    font-family: 'Fira Mono', monospace;
+}
+.roboto{
+    font-family: 'Roboto', sans-serif;
+}
+.name{
+    font-size: 12px;
+}
+.font-white{
+    color: white;
+}
+.flex{
+    display: flex;
+}
+.row{
+    flex-direction: row;
+}
+.column{
+    flex-direction: column;
+}
+.center-column{
+    align-items: center;
+}
+.center-row{
+    justify-content: center;
+}
+.space-evenly{
+    justify-content: space-evenly;
+}
+.hover:hover{
+    cursor: pointer;
+}
+.expense-container{
+    height: 75px;
+    width: 90px;
+    border-radius: 10px;
+    background-color: #0E0F19;
+    font-size: 18px;
+}
+.year-container{
+    height: 40px;
+    width: 300px;
+    background-color: #0E0F19;
+    border-radius: 10px;
+    font-size: 18px;
+}
+.year-list{
+    transform: translateY(40px);
+}
+.size-12{
+    font-size: 12px;
+}

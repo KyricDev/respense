@@ -3,7 +3,7 @@ import { siteRoot } from './siteroot';
 
 export function OAuthButton() {
     return (
-/*        <div>
+        <div>
             <div id="g_id_onload"
                  data-client_id="425711147539-3foeia0vc7n80d3i7sgi2j6jblfgsmpo.apps.googleusercontent.com"
                  data-login_uri={siteRoot + "trygoogle"}
@@ -19,6 +19,14 @@ export function OAuthButton() {
                  data-logo_alignment="left">
             </div>
         </div>      
-*/  <div className="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>  
+    /*
+    <div className="g-signin2" 
+         data-onsuccess="onSignIn" 
+         data-theme="dark"
+         data-client_id="425711147539-3foeia0vc7n80d3i7sgi2j6jblfgsmpo.apps.googleusercontent.com"
+         data-login_uri={siteRoot + "trygoogle"}
+         data-auto_prompt="false">            
+    </div>  
+    */
     );
 }

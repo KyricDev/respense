@@ -35,8 +35,8 @@ class Dashboard extends React.Component<any, any>{
 
         return(
             <div>
-                {`Hello ${name}`}
                 {addExpense}
+                <div className="fira-mono name">{`Hello ${name}`}</div>
                 <ExpenseList shouldReload={shouldReload} reloaded={this.reset}/>
                 <SignOut />
                 <button onClick={this.addForm} >Add</button>
