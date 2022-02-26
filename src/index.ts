@@ -8,6 +8,7 @@ import { googleGetCode, googleLogin } from './api/googlelogin.js';
 import sessionCheck from './api/sessionCheck.js';
 import expenses from './api/expenses.js';
 import addExpense from './api/addexpense.js';
+import changeExpenseStatus from './api/changeExpenseStatus.js';
 import { usercontext, expensescontext } from './data/usercontext.js';
 import cookieParser from 'cookie-parser';
 import multer from 'multer';
@@ -111,6 +112,7 @@ async (req: express.Request, res: express.Response) => {
 });
 */
 app.post('/addExpense', addExpense);
+app.post('/changeExpenseStatus', changeExpenseStatus);
 app.post('', sessionCheck);
 app.post('/signout', localLogout);
 app.post('/login', localLogin);

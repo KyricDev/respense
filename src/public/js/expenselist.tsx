@@ -1,5 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { render } from 'react-dom';
 import { apiRoot } from './siteroot';
+
+function Expense(props: any){
+    const [expense, setExpense] = useState(props.data);
+    const setComplete = () => {
+        fetch(apiRoot + 'changeExpenseStatus', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                id: expense.id
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            setExpense(data);
+        })
+    }
+    setComplete;
+    let disable = '';
+    console.log(expense);
+    if (expense.isComplete) disable = 'blur';
+
+    return <div className={disable} onClick={setComplete} key={expense.id} >{expense.type}: {expense.value}</div>
+}
 
 class Month extends React.Component<any, any> {
     constructor(props: any) {
@@ -9,6 +33,7 @@ class Month extends React.Component<any, any> {
             isRevealed: false
         }
         this.reveal = this.reveal.bind(this);
+        this.setComplete = this.setComplete.bind(this);
     }
     componentDidMount() {
         this.setState({month: this.props.expenses.month});
@@ -24,22 +49,36 @@ class Month extends React.Component<any, any> {
             this.props.hide(this.state.month, this.state.isRevealed) 
         });
     }
+    setComplete(id: any){
+        fetch(apiRoot + 'changeExpenseStatus', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                id: id
+            })
+        })
+        .then(response => response.json())
+        .then(data => console.log(data));
+    }
     render() {
         if (this.state.isRevealed){
             let expenses = this.props.expenses.expenses.map( (expense: any) => {
-                return <div className="size-12" key={expense.id} >{expense.type}: {expense.value}</div>
+                //<div onClick={this.setComplete.bind(this, expense.id)} key={expense.id} >{expense.type}: {expense.value}</div>
+                return <div key={expense.id}>
+                          <Expense data={expense}/>
+                       </div>
             })
             return (
-                <div className="expense-container hover" >
-                    <div onClick={this.reveal}>{this.state.month}</div>
-                    {expenses}
+                <div className="expense-container" >
+                    <div className="hover" onClick={this.reveal}>{this.state.month}</div>
+                    <div className="size-12 scroll expense-list" >{expenses}</div>
                 </div>
             )
         }
         else{
             return (
-                <div className="expense-container hover" >
-                    <div onClick={this.reveal}>{this.state.month}</div>
+                <div className="flex column center-column center-row expense-container" >
+                    <div className="hover" onClick={this.reveal}>{this.state.month}</div>
                 </div>
             )
         }
@@ -131,7 +170,9 @@ export class ExpenseList extends React.Component<any, any>{
         });
         */
         let yearList = null;
+        let modify = '';
         if (this.state.year.isRevealed) {
+            modify = ' bottom-border-straight';
             let list = this.state.expenses.map( (value: any, index: any, arr: any) => {
                 return <div className="year-container hover" key={value.year} onClick={this.changeIndex.bind(this, index)}>{value.year}</div>
             })
@@ -139,7 +180,7 @@ export class ExpenseList extends React.Component<any, any>{
         }
         return (
             <div className="flex column center-column">
-                <div className="font-white year-container roboto hover" onClick={this.reveal} >{expenses.year}</div>
+                <div className={"font-white year-container roboto hover"+modify} onClick={this.reveal} >{expenses.year}</div>
                 {yearList}
                 <div> 
                     <div className="flex row font-white roboto" >{expensesList.slice(0, 3)}</div>

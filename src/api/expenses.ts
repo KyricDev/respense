@@ -118,6 +118,7 @@ export default async function (req: express.Request, res: express.Response, next
                         "type": current.type,
                         "value": current.value,
                         "id": current.id,
+                        "isComplete": current.isComplete,
                     }]
                 }],
             })
@@ -133,6 +134,7 @@ export default async function (req: express.Request, res: express.Response, next
                         "type": current.type,
                         "value": current.value,
                         "id": current.id,
+                        "isComplete": current.isComplete,
                     }]
                 }],
             })
@@ -145,6 +147,7 @@ export default async function (req: express.Request, res: express.Response, next
                     "type": current.type,
                     "value": current.value,
                     "id": current.id,
+                    "isComplete": current.isComplete,
                 }]
             })
         }
@@ -153,6 +156,7 @@ export default async function (req: express.Request, res: express.Response, next
                 "type": current.type,
                 "value": current.value,
                 "id": current.id,
+                "isComplete": current.isComplete,
             })
         }
     })
