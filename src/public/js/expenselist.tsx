@@ -1,9 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext, useContext } from 'react';
 import { render } from 'react-dom';
 import { apiRoot } from './siteroot';
 
+const ReloadContext = createContext('false');
+
 function Expense(props: any){
     const [expense, setExpense] = useState(props.data);
+    useEffect( () => {
+        setExpense(props.data);
+    }, [props] )
     const setComplete = () => {
         fetch(apiRoot + 'changeExpenseStatus', {
             method: 'POST',
@@ -12,14 +17,9 @@ function Expense(props: any){
                 id: expense.id
             })
         })
-        .then(response => response.json())
-        .then(data => {
-            setExpense(data);
-        })
+        .then(() => props.shouldReload(true));
     }
-    setComplete;
     let disable = '';
-    console.log(expense);
     if (expense.isComplete) disable = 'blur';
 
     return <div className={disable} onClick={setComplete} key={expense.id} >{expense.type}: {expense.value}</div>
@@ -33,7 +33,7 @@ class Month extends React.Component<any, any> {
             isRevealed: false
         }
         this.reveal = this.reveal.bind(this);
-        this.setComplete = this.setComplete.bind(this);
+        this.shouldReload = this.shouldReload.bind(this);
     }
     componentDidMount() {
         this.setState({month: this.props.expenses.month});
@@ -49,23 +49,14 @@ class Month extends React.Component<any, any> {
             this.props.hide(this.state.month, this.state.isRevealed) 
         });
     }
-    setComplete(id: any){
-        fetch(apiRoot + 'changeExpenseStatus', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                id: id
-            })
-        })
-        .then(response => response.json())
-        .then(data => console.log(data));
+    shouldReload(e: any){
+        this.props.shouldReload(e);
     }
     render() {
         if (this.state.isRevealed){
             let expenses = this.props.expenses.expenses.map( (expense: any) => {
-                //<div onClick={this.setComplete.bind(this, expense.id)} key={expense.id} >{expense.type}: {expense.value}</div>
                 return <div key={expense.id}>
-                          <Expense data={expense}/>
+                          <Expense data={expense} shouldReload={this.shouldReload} />
                        </div>
             })
             return (
@@ -95,6 +86,7 @@ export class ExpenseList extends React.Component<any, any>{
         }
         this.reveal = this.reveal.bind(this);
         this.hide = this.hide.bind(this);
+        this.shouldReload = this.shouldReload.bind(this);
     }
     componentDidMount(){
         fetch(apiRoot + 'expenses', {
@@ -137,6 +129,9 @@ export class ExpenseList extends React.Component<any, any>{
         newDisplayed.month = 'all';
         this.setState({ displayed: newDisplayed, year: newYear });
     }
+    shouldReload(e: any){
+        this.componentDidMount();
+    }
     render() {
         let index = this.state.year.index;
         let expenses: any = this.state.expenses[index];
@@ -145,7 +140,7 @@ export class ExpenseList extends React.Component<any, any>{
             let shouldReveal = false;
             if (this.state.displayed.month == expense.month) shouldReveal = this.state.displayed.isRevealed;
             if (this.state.displayed.month == 'all') shouldReveal = false; 
-            return <Month key={expense.month} expenses={expense} hide={this.hide} shouldReveal={shouldReveal} />
+            return <Month key={expense.month} expenses={expense} hide={this.hide} shouldReveal={shouldReveal} shouldReload={this.shouldReload} />
         })
         /*
         let expenses: any = this.state.expenses;
