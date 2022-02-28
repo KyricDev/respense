@@ -24,7 +24,6 @@ class Dashboard extends React.Component<any, any>{
     render() {
         let addExpense = <AddExpense expenseAdded={this.reload}/>;
         let shouldReload = this.state.updateList;
-        if (!this.state.isAddForm) addExpense = <div></div>
         let cookieArr = decodeURIComponent(document.cookie).split(';');
         let name = '';
         let cookieName = 'respense.cookie=';
@@ -32,14 +31,20 @@ class Dashboard extends React.Component<any, any>{
             if (cookie.charAt(0) == ' ') cookie = cookie.substring(1);
             if (cookie.indexOf(cookieName) == 0) return name = cookie.substring(cookieName.length);
         })
-
+        let disable = true;
+        if (!this.state.isAddForm) {
+            addExpense = <div></div>
+            disable = false;
+        }
         return(
-            <div>
+            <div className="flex column center-column margin-top-17">
                 {addExpense}
-                <div className="fira-mono name">{`Hello ${name}`}</div>
-                <ExpenseList shouldReload={shouldReload} reloaded={this.reset}/>
-                <SignOut />
-                <button onClick={this.addForm} >Add</button>
+                <div className="flex row space-evenly center-column view-width">
+                    <div className="roboto name">{`Hello ${name}`}</div>
+                    <SignOut />
+                </div>
+                <ExpenseList disable={disable} shouldReload={shouldReload} reloaded={this.reset}/>
+                <button className="button-priority hover button-green" onClick={this.addForm} >Add</button>
             </div>
         )
     }

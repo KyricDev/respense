@@ -60,17 +60,18 @@ export class AddExpense extends React.Component<any, any>{
         let isRecurring = this.state.isRecurring;
 
         return(
-            <div className="absolute">
-                <form method="post" onSubmit={this.submit}>
-                    <input type="text" name="name" placeholder="Name of Expense"></input>
-                    <input type="text" name="value" placeholder="Value"></input>
-                    <input type="month" disabled={isRecurring} onChange={this.setMonth} value={this.state.month} ></input>
-                    <input type="checkbox" name="isRecurring" onChange={this.recurring}></input>
-                    <span>
-                        <input type="month" disabled={!isRecurring} onChange={this.setPeriodStart} value={this.state.periodStart} ></input> to 
-                        <input type="month" disabled={!isRecurring} onChange={this.setPeriodEnd} value={this.state.periodEnd} ></input>
-                    </span>
-                    <button>Add Expense</button>
+            <div className="absolute overlay view-width">
+                <form className="flex column center-row center-column add-expense-container opaque-bg" method="post" onSubmit={this.submit}>
+                    <div className="field-margin flex row center-row center-column">
+                        <input className="auto-size" type="checkbox" name="isRecurring" onChange={this.recurring}></input>
+                        <div className="size-12 roboto font-white">Recurring Expense</div>
+                    </div>
+                    <input className="field-margin" type="text" name="name" placeholder="Name"></input>
+                    <input className="field-margin" type="text" name="value" placeholder="Value"></input>
+                    <input className="field-margin" type="month" disabled={isRecurring} onChange={this.setMonth} value={this.state.month} placeholder="MONTH & YEAR" ></input>
+                    <input className="field-margin" type="month" disabled={!isRecurring} onChange={this.setPeriodStart} value={this.state.periodStart} placeholder="FROM" ></input>
+                    <input className="field-margin" type="month" disabled={!isRecurring} onChange={this.setPeriodEnd} value={this.state.periodEnd} placeholder="TO" ></input>
+                    <button className="field-margin button-green">Add Expense</button>
                 </form>
             </div>
         )

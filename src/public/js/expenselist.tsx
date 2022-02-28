@@ -1,8 +1,6 @@
-import React, { useState, useEffect, createContext, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { render } from 'react-dom';
 import { apiRoot } from './siteroot';
-
-const ReloadContext = createContext('false');
 
 function Expense(props: any){
     const [expense, setExpense] = useState(props.data);
@@ -19,10 +17,21 @@ function Expense(props: any){
         })
         .then(() => props.shouldReload(true));
     }
-    let disable = '';
-    if (expense.isComplete) disable = 'blur';
+    function deleteexpense(){
+        fetch (apiRoot + 'deleteExpense', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({id: expense.id})
+        })
+        .then(props.shouldReload(true));
+    }
+    let enable = '';
+    if (expense.isComplete) enable = ' enable';
 
-    return <div className={disable} onClick={setComplete} key={expense.id} >{expense.type}: {expense.value}</div>
+    return <div className="flex row space-between">
+                <div className={"hover" + enable} onClick={setComplete} key={expense.id} >{expense.type}: {expense.value}</div>
+                <button onClick={deleteexpense} className="font-white hover">delete</button>
+           </div>
 }
 
 class Month extends React.Component<any, any> {
@@ -54,13 +63,14 @@ class Month extends React.Component<any, any> {
     }
     render() {
         if (this.state.isRevealed){
-            let expenses = this.props.expenses.expenses.map( (expense: any) => {
+            let row = this.props.row;
+            let expenses = this.props.expenses.expenses.map( (expense: any, index: any, arr: any) => {
                 return <div key={expense.id}>
                           <Expense data={expense} shouldReload={this.shouldReload} />
                        </div>
             })
             return (
-                <div className="expense-container" >
+                <div className="expense-container focused absolute" style={{transform: `translateY(calc(-90px*${row})`}} >
                     <div className="hover" onClick={this.reveal}>{this.state.month}</div>
                     <div className="size-12 scroll expense-list" >{expenses}</div>
                 </div>
@@ -136,11 +146,40 @@ export class ExpenseList extends React.Component<any, any>{
         let index = this.state.year.index;
         let expenses: any = this.state.expenses[index];
         if (expenses === undefined) return (<div>Loading . . .</div>)
-        let expensesList = expenses.months.map( (expense: any) => {
+        let expensesList = expenses.months.map( (expense: any, index: any, arr: any) => {
             let shouldReveal = false;
             if (this.state.displayed.month == expense.month) shouldReveal = this.state.displayed.isRevealed;
             if (this.state.displayed.month == 'all') shouldReveal = false; 
-            return <Month key={expense.month} expenses={expense} hide={this.hide} shouldReveal={shouldReveal} shouldReload={this.shouldReload} />
+            let row = 0;
+            switch (index){
+                case 0:
+                case 1:
+                case 2:
+                    row = 0;
+                    break;
+                case 3:
+                case 4:
+                case 5:
+                    row = 1;
+                    break;
+                case 6:
+                case 7:
+                case 8:
+                    row = 2;
+                    break;
+                case 9:
+                case 10:
+                case 11:
+                    row = 3;
+                    break;
+            }
+            return <Month key={expense.month} 
+                          expenses={expense} 
+                          hide={this.hide} 
+                          shouldReveal={shouldReveal} 
+                          shouldReload={this.shouldReload} 
+                          row={row}
+            />
         })
         /*
         let expenses: any = this.state.expenses;
@@ -171,17 +210,19 @@ export class ExpenseList extends React.Component<any, any>{
             let list = this.state.expenses.map( (value: any, index: any, arr: any) => {
                 return <div className="year-container hover" key={value.year} onClick={this.changeIndex.bind(this, index)}>{value.year}</div>
             })
-            yearList = <div className="absolute font-white flex column center-column roboto year-list">{list}</div>
+            yearList = <div className="absolute font-white flex column center-column roboto year-list to-front scroll">{list}</div>
         }
+        let disable = '';
+        if (this.props.disable) disable = ' disable';
         return (
-            <div className="flex column center-column">
+            <div className={"flex column center-column margin-top-42"+disable}>
                 <div className={"font-white year-container roboto hover"+modify} onClick={this.reveal} >{expenses.year}</div>
                 {yearList}
                 <div> 
-                    <div className="flex row font-white roboto" >{expensesList.slice(0, 3)}</div>
-                    <div className="flex row font-white roboto" >{expensesList.slice(3, 6)}</div>
-                    <div className="flex row font-white roboto" >{expensesList.slice(6, 9)}</div>
-                    <div className="flex row font-white roboto" >{expensesList.slice(9, 12)}</div>
+                    <div className="flex row font-white roboto expense-row" >{expensesList.slice(0, 3)}</div>
+                    <div className="flex row font-white roboto expense-row" >{expensesList.slice(3, 6)}</div>
+                    <div className="flex row font-white roboto expense-row" >{expensesList.slice(6, 9)}</div>
+                    <div className="flex row font-white roboto expense-row" >{expensesList.slice(9, 12)}</div>
                 </div>
             </div>
         );
