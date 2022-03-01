@@ -62,7 +62,7 @@ export class AddExpense extends React.Component<any, any>{
         return(
             <div className="absolute overlay view-width">
                 <form className="flex column center-row center-column add-expense-container opaque-bg" method="post" onSubmit={this.submit}>
-                    <div className="field-margin flex row center-row center-column">
+                    <div className="flex row center-row center-column">
                         <input className="auto-size" type="checkbox" name="isRecurring" onChange={this.recurring}></input>
                         <div className="size-12 roboto font-white">Recurring Expense</div>
                     </div>

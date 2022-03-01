@@ -135,7 +135,7 @@ p{
     opacity: 0.20;
 }
 .opaque-bg{
-    background-color: rgb(14, 15, 25, 0.8);
+    background-color: rgb(14, 15, 25, 0.95);
     border-radius: 10px;
 }
 .field-margin{
@@ -153,11 +153,13 @@ p{
     height: 25px;
     background-color: #adf7b6;
     border-radius: 15px;
-    margin-top: 42px;
 }
 .margin-top-42{
     margin-top: 42px;
 }
 .margin-top-17{
     margin-top: 17px;
+}
+.logout-height{
+    height: 22px;
 }

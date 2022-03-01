@@ -44,7 +44,7 @@ class Dashboard extends React.Component<any, any>{
                     <SignOut />
                 </div>
                 <ExpenseList disable={disable} shouldReload={shouldReload} reloaded={this.reset}/>
-                <button className="button-priority hover button-green" onClick={this.addForm} >Add</button>
+                <button className="button-priority hover button-green margin-top-42" onClick={this.addForm} >Add</button>
             </div>
         )
     }

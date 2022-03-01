@@ -208,7 +208,7 @@ export class ExpenseList extends React.Component<any, any>{
         if (this.state.year.isRevealed) {
             modify = ' bottom-border-straight';
             let list = this.state.expenses.map( (value: any, index: any, arr: any) => {
-                return <div className="year-container hover" key={value.year} onClick={this.changeIndex.bind(this, index)}>{value.year}</div>
+                return <div className="flex row center-column center-row year-container hover" key={value.year} onClick={this.changeIndex.bind(this, index)}>{value.year}</div>
             })
             yearList = <div className="absolute font-white flex column center-column roboto year-list to-front scroll">{list}</div>
         }
@@ -216,7 +216,7 @@ export class ExpenseList extends React.Component<any, any>{
         if (this.props.disable) disable = ' disable';
         return (
             <div className={"flex column center-column margin-top-42"+disable}>
-                <div className={"font-white year-container roboto hover"+modify} onClick={this.reveal} >{expenses.year}</div>
+                <div className={"flex row center-column center-row font-white year-container roboto hover"+modify} onClick={this.reveal} >{expenses.year}</div>
                 {yearList}
                 <div> 
                     <div className="flex row font-white roboto expense-row" >{expensesList.slice(0, 3)}</div>
