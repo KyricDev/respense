@@ -24,6 +24,7 @@ export default async function (req: express.Request, res: express.Response, next
     let date: string | null = req.body.date;
     let periodStart: string | null = req.body.periodStart;
     let periodEnd: string | null = req.body.periodEnd;
+    console.log(req.body.isChecked);
     let isChecked: boolean | null = (req.body.isChecked == 'true') ? true : (req.body.isChecked == 'false') ? false : null;
 
     if (date!.length > 10 || periodStart!.length > 10 || periodEnd!.length > 10) return res.status(404).send({'statusText': 'Date too long'});

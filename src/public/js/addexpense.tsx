@@ -21,10 +21,11 @@ export class AddExpense extends React.Component<any, any>{
         e.preventDefault();
         let form = e.target;
         let data = new FormData();
-        data.append("name", form[0].value);
-        data.append("value", form[1].value);
-        data.append("date", form[2].value);
-        data.append("isChecked", form[3].checked);
+        console.log(form);
+        data.append("isChecked", form[0].checked);
+        data.append("name", form[1].value);
+        data.append("value", form[2].value);
+        data.append("date", form[3].value);
         data.append("periodStart", form[4].value);
         data.append("periodEnd", form[5].value);
 

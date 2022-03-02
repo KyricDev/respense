@@ -101,16 +101,23 @@ p{
     border-bottom-right-radius: 10px;
 }
 .expense-list{
-    height: calc( 0.85*(300px));
+    max-height: calc( 0.85*(345px));
 }
 .size-12{
     font-size: 12px;
 }
+.size-14{
+    font-size: 14px;
+}
 .scroll{
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 .enable{
     color: #adf7b6;
+}
+.darken{
+    color: #B5B5B5;
 }
 .focused{
     width: 300px;
@@ -162,4 +169,59 @@ p{
 }
 .logout-height{
     height: 22px;
+}
+.color-orange{
+    color: #FFC09F;
+}
+table{
+    border-spacing: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    margin: 0px;
+    padding: 0px;
+}
+th{
+    position: sticky;
+    top: -1px;
+    font-weight: normal;
+    min-width: 84px;
+    max-width: 84px;
+    text-align: center;
+    padding: 0px;
+    height: 26px;
+    background:#0E0F19;
+}
+td{
+    min-width: 84px;
+    max-width: 84px;
+    text-align: center;
+    padding: 0px;
+    height: 25px;
+}
+.center-text{
+    text-align: center;
+}
+.checkbox-cell{
+    width: 24px;
+    min-width:24px;
+    max-width: 24px;
+}
+.right-text{
+    text-align: right;
+}
+.checkbox{
+    width: 8px;
+    height: 8px;
+    margin-left: 8px;
+    background: white;
+    border-radius: 1px;
+}
+.checkbox:hover{
+    background: #B5B5B5;
+}
+.bg-green{
+    background:#adf7b6;
+}
+.checkbox.bg-green:hover{
+    background: #8bc792;
 }
