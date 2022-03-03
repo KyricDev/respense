@@ -5,8 +5,9 @@ import { apiRoot } from './siteroot';
 function Expense(props: any){
     const [expense, setExpense] = useState(props.data);
     useEffect( () => {
+        console.log('data set!');
         setExpense(props.data);
-    }, [props] )
+    }, [props.data] )
     const setComplete = () => {
         fetch(apiRoot + 'changeExpenseStatus', {
             method: 'POST',
@@ -18,29 +19,56 @@ function Expense(props: any){
         .then(() => props.shouldReload(true));
     }
     function deleteexpense(){
+        console.log('deleting . . .')
         fetch (apiRoot + 'deleteExpense', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({id: expense.id})
         })
-        .then(props.shouldReload(true));
+        .then( () => props.shouldReload(true) );
     }
     let enable = ' darken';
     let background = '';
+    let checkmark = '';
     if (expense.isComplete) {
         enable = ' enable';
         background = ' bg-green';
+        checkmark = 'checkmark'
     }
     return <tr className="size-12">
                 <td className="checkbox-cell right-text flex center-column center-row">
                     <div className={"checkbox"+background} onClick={setComplete}>
+                        <div className={checkmark} />
                     </div>
                 </td>
                 <td className={enable}>{expense.type}</td>
                 <td className={enable}>{expense.value}</td>
-                <td>
-                    <div onClick={deleteexpense} className="flex center-column center-row hover">
+                <td className="flex row center-row">
+                    <div className="flex center-column center-row margin-around">
                         <svg 
+                            className="hover"
+                            width="17" 
+                            height="17" 
+                            viewBox="0 0 17 17" 
+                            fill="none" 
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <circle 
+                                cx="8.5" 
+                                cy="8.5" 
+                                r="8.5" 
+                                fill="#FCF5C7"
+                            />
+                            <path 
+                                d="M5.01754 12.9722C4.57048 12.8729 4.2431 12.5859 4.07419 12.1451C3.98093 11.9018 3.97287 5.37187 4.06554 5.13045C4.24496 4.663 4.58335 4.36773 5.04026 4.27993C5.32338 4.22553 8.42489 4.24003 8.53075 4.29625C8.71639 4.39485 8.73997 4.6265 8.57968 4.77695C8.5279 4.82556 8.5279 4.82556 6.8308 4.83528C4.90034 4.84633 5.02331 4.83491 4.81581 5.02228C4.57397 5.24067 4.59167 4.95602 4.59167 8.62599C4.59167 12.3083 4.57418 12.0041 4.79805 12.2144C5.02284 12.4256 4.68486 12.407 8.42453 12.4136C12.2413 12.4202 11.9703 12.435 12.2036 12.2079C12.4015 12.0154 12.3916 12.1101 12.4026 10.2984C12.412 8.72923 12.4131 8.69298 12.4516 8.62708C12.5608 8.4405 12.8337 8.43718 12.9476 8.62107C13.0104 8.72262 13.0201 11.7764 12.9583 12.019C12.8475 12.454 12.5144 12.8065 12.0735 12.9551C11.933 13.0025 5.22699 13.0188 5.01754 12.9722V12.9722ZM5.96512 11.1459C5.93265 11.1317 5.88291 11.0924 5.85458 11.0586C5.7488 10.9323 5.74769 10.938 6.0708 9.96365C6.36556 9.07484 6.36556 9.07484 8.8561 6.57109C10.2259 5.19402 11.3686 4.05208 11.3955 4.03344C11.4556 3.99173 11.6097 3.98836 11.6825 4.02717C11.7454 4.06075 12.8734 5.19638 12.9038 5.25685C12.9338 5.31637 12.9305 5.44943 12.8974 5.51184C12.8649 5.57337 7.90099 10.5573 7.84379 10.5859C7.76438 10.6256 6.10343 11.1732 6.06459 11.1725C6.04235 11.172 5.99759 11.1601 5.96512 11.1459L5.96512 11.1459ZM9.34111 8.2792C11.1288 6.48209 11.1288 6.48208 10.7881 6.1399C10.4474 5.79772 10.4474 5.79772 8.66564 7.58716C6.88392 9.37659 6.88392 9.37659 6.74901 9.7743C6.5047 10.4945 6.46672 10.4349 7.04792 10.2431C7.55342 10.0763 7.55342 10.0763 9.34111 8.2792ZM11.8763 5.72867C12.0593 5.54638 12.209 5.391 12.209 5.38337C12.209 5.37574 12.0586 5.21868 11.8749 5.03434C11.5407 4.69918 11.5407 4.69918 11.2024 5.03941C10.864 5.37964 10.864 5.37964 11.2024 5.71987C11.3885 5.907 11.5414 6.0601 11.5422 6.0601C11.543 6.0601 11.6934 5.91096 11.8763 5.72867V5.72867Z" 
+                                fill="black"
+                            />
+                        </svg>
+                    </div>
+                    <div className="flex center-column center-row margin-around">
+                        <svg
+                            className="hover"
+                            onClick={deleteexpense} 
                             width="17" 
                             height="17" 
                             viewBox="0 0 17 17" 
@@ -181,7 +209,22 @@ export class ExpenseList extends React.Component<any, any>{
         this.setState({ displayed: newDisplayed, year: newYear });
     }
     shouldReload(e: any){
-        this.componentDidMount();
+        console.log('fetching new data . . .')
+        fetch(apiRoot + 'expenses', {
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('data fetched!');
+            console.log(data);
+            data.forEach( (data: any) => {
+                data.isRevealed = false;
+            })
+            this.setState({ expenses: data });
+        })
+        .catch((err) => {
+            if (err) console.log(err);
+        });
     }
     render() {
         let index = this.state.year.index;

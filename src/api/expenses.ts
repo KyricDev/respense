@@ -168,5 +168,12 @@ export default async function (req: express.Request, res: express.Response, next
         })
     })
     */
+    expenses.forEach( (expenseByYear: any) => {
+        expenseByYear.months.forEach( (expenseByMonth: any) => {
+            expenseByMonth.expenses.sort( (expense1: any, expense2: any) => {
+                return parseInt(expense1.id) - parseInt(expense2.id);
+            })
+        })
+    })
     res.status(202).send(expenses).end();
 }
