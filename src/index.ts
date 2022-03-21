@@ -10,6 +10,7 @@ import expenses from './api/expenses.js';
 import addExpense from './api/addexpense.js';
 import changeExpenseStatus from './api/changeExpenseStatus.js';
 import deleteExpense from './api/deleteExpense.js';
+import updateExpense from './api/updateExpense.js';
 import { usercontext, expensescontext } from './data/usercontext.js';
 import cookieParser from 'cookie-parser';
 import multer from 'multer';
@@ -75,7 +76,6 @@ app.use(session({
         httpOnly: false,
     }
 }));
-
 app.get(['', '/login'],
         (req: express.Request | any, res: express.Response) => {
     res.sendFile(
@@ -115,6 +115,7 @@ async (req: express.Request, res: express.Response) => {
 app.post('/addExpense', addExpense);
 app.post('/deleteExpense', deleteExpense);
 app.post('/changeExpenseStatus', changeExpenseStatus);
+app.post('/updateExpense', updateExpense);
 app.post('', sessionCheck);
 app.post('/signout', localLogout);
 app.post('/login', localLogin);

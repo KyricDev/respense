@@ -73,6 +73,7 @@ p{
     border-radius: 10px;
     background-color: #0E0F19;
     font-size: 18px;
+    transition: width 3s ease-in-out, height 3s ease-in-out;
 }
 .expense-row{
     width: 300px;
@@ -86,6 +87,7 @@ p{
     width: 300px;
     background-color: #0E0F19;
     border-radius: 10px;
+    transition: all 10ms ease-in-out;
     font-size: 18px;
 }
 .bottom-border-straight{
@@ -95,10 +97,11 @@ p{
 .year-list{
     transform: translateY(40px);
     background-color: #0E0F19;
-    height: auto;
-    max-height: 360px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+    transition: all 300ms ease-in-out;
+    max-height: 360px;
+    max-width: 300px;
 }
 .expense-list{
     max-height: calc( 0.85*(345px));
@@ -111,6 +114,13 @@ p{
 }
 .scroll{
     overflow-y: auto;
+    overflow-x: hidden;
+}
+.y-scroll-show{
+    overflow-y: auto;
+}
+.scroll-hide{
+    overflow-y: hidden;
     overflow-x: hidden;
 }
 .enable{
@@ -128,7 +138,7 @@ p{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 68px;
+    margin-top: 64px;
     z-index: 1;
 }
 .view-width{
@@ -210,8 +220,8 @@ td{
     text-align: right;
 }
 .checkbox{
-    width: 8px;
-    height: 8px;
+    width: 9px;
+    height: 9px;
     margin-left: 8px;
     background: white;
     border-radius: 1px;
@@ -227,7 +237,7 @@ td{
     background: #8bc792;
 }
 .checkmark{
-    margin-left: 3px;
+    margin-left: 4px;
     margin-top: 1px;
     bottom: 0px;
     width: 1px;
@@ -239,4 +249,16 @@ td{
 .margin-around{
     margin-left: 2px;
     margin-right: 2px;
+}
+.input-small{
+    background-color: grey;
+    font-size: 12px;
+    width: 80px;
+    height: 16px;
+    text-align: center;
+}
+.input-small::placeholder{
+    color: white;
+    font-size: 12px;
+    margin-top: 1px;
 }

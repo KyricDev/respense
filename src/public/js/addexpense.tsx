@@ -72,7 +72,7 @@ export class AddExpense extends React.Component<any, any>{
                     <input className="field-margin" type="month" disabled={isRecurring} onChange={this.setMonth} value={this.state.month} placeholder="MONTH & YEAR" ></input>
                     <input className="field-margin" type="month" disabled={!isRecurring} onChange={this.setPeriodStart} value={this.state.periodStart} placeholder="FROM" ></input>
                     <input className="field-margin" type="month" disabled={!isRecurring} onChange={this.setPeriodEnd} value={this.state.periodEnd} placeholder="TO" ></input>
-                    <button className="field-margin button-green">Add Expense</button>
+                    <button className="hover field-margin button-green">Add Expense</button>
                 </form>
             </div>
         )

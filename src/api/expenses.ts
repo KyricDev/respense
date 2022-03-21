@@ -114,6 +114,7 @@ export default async function (req: express.Request, res: express.Response, next
                 "year": year,
                 "months": [{
                     "month": parseMonth(current.date.slice(5, 7)),
+                    "intMonth": current.date.slice(5, 7),
                     "expenses": [{
                         "type": current.type,
                         "value": current.value,
@@ -130,6 +131,7 @@ export default async function (req: express.Request, res: express.Response, next
                 "year": year,
                 "months": [{
                     "month": parseMonth(current.date.slice(5, 7)),
+                    "intMonth": current.date.slice(5, 7),
                     "expenses": [{
                         "type": current.type,
                         "value": current.value,
@@ -143,6 +145,7 @@ export default async function (req: express.Request, res: express.Response, next
             incMonths++;
             expenses[incYear].months.push({
                 "month": parseMonth(current.date.slice(5, 7)),
+                "intMonth": current.date.slice(5, 7),
                 "expenses": [{
                     "type": current.type,
                     "value": current.value,
