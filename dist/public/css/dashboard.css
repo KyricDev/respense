@@ -73,13 +73,18 @@ p{
     border-radius: 10px;
     background-color: #0E0F19;
     font-size: 18px;
-    transition: width 3s ease-in-out, height 3s ease-in-out;
+    transition: all 1s ease-in-out;
+}
+.empty-container{
+    height: 0px;
+    width: 0px;
+    transition: height 300ms, width 300ms, margin-top 300ms;
+    background: #0E0F19;
 }
 .expense-row{
     width: 300px;
     justify-content: space-between;
     margin-top: 15px;
-    min-height: 75px;
 }
 .year-container{
     height: 40px;
@@ -130,8 +135,9 @@ p{
     color: #B5B5B5;
 }
 .focused{
-    width: 300px;
     height: 345px;
+    width: 300px;
+    z-index: 1;
 }
 .overlay{
     display: flex;
@@ -176,6 +182,9 @@ p{
 }
 .margin-top-17{
     margin-top: 17px;
+}
+.margin-top-26{
+    margin-top: 26px;
 }
 .logout-height{
     height: 22px;

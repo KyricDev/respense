@@ -199,20 +199,34 @@ function Expense(props: any){
            </tr>
 }
 function MonthRevealed (props: any){
+    const [revealState, setRevealState] = useState(false);
+    useEffect( () => {
+        setRevealState(props.reveal);
+    }, [props.reveal])
+    useEffect( () => {
+        console.log('state changed!');
+    }, [revealState])
     function shouldReload(e: any){
         props.shouldReload();
     }
-    function reveal(e: any){
-
+    function hide(e: any){
+        setRevealState(!revealState);
+        props.hide();
     }
     let expenses = props.expenses.expenses.map( (expense: any, index: any, arr: any) => {
         return <Expense key={expense.id} data={expense} shouldReload={shouldReload} />
     })
-    return (
-        <div className="expense-container focused" >
-            <div className="hover center-text margin-top-17" onClick={reveal}>{props.expenses.month}</div>
+    let focused = '';
+    let redMargin = '';
+    if (revealState) {
+        focused = ' absolute focused';
+        redMargin = ' margin-top-17';
+    }
+        return (
+        <div className={"expense-container roboto scroll-hide"+focused} >
+            <div className={"hover center-text margin-top-26 font-white scroll-hide"+redMargin} onClick={hide}>{props.expenses.month}</div>
             <div className="expense-list scroll">
-                <table className="margin-top-17">
+                <table className={"margin-top-26"}>
                     <tbody>
                     <tr className="flex row center-row center-column color-orange size-14 roboto weight-normal">
                         <th className="checkbox-cell"></th>
@@ -238,7 +252,7 @@ class Month extends React.Component<any, any> {
         this.reveal = this.reveal.bind(this);
     }
     componentDidMount() {
-        this.setState({month: this.props.month});
+        this.setState({month: this.props.expenses.month});
     }
     componentDidUpdate(prevProps: any, prevState: any) {
         if (prevState.isRevealed != this.props.shouldReveal) {
@@ -253,13 +267,12 @@ class Month extends React.Component<any, any> {
     }
     render() {
         return (
-            <div className={"flex column center-column center-row expense-container"} >
-                <div className="hover" onClick={this.reveal}>{this.state.month}</div>
-            </div>
+            <>
+            <MonthRevealed expenses={this.props.expenses} reveal={this.state.isRevealed} hide={this.reveal} />
+            </>
         )
     }
 }
-
 export class ExpenseList extends React.Component<any, any>{
     constructor(props: any){
         super(props);
@@ -327,6 +340,7 @@ export class ExpenseList extends React.Component<any, any>{
         newYear.isRevealed = false;
         let newDisplayed = this.state.displayed;
         newDisplayed.month = 'all';
+        newDisplayed.isRevealed = false;
         this.setState({ displayed: newDisplayed, year: newYear });
     }
     shouldReload(e: any){
@@ -378,10 +392,10 @@ export class ExpenseList extends React.Component<any, any>{
             }
             console.log(this.state.displayed.isRevealed);
             return <Month key={expense.month} 
-                          month={expense.month} 
-                          hide={this.hide} 
+                          expenses={expense} 
                           shouldReveal={shouldReveal} 
                           shouldReload={this.shouldReload} 
+                          hide={this.hide} 
             />
         })
         let arrLength = 0;
@@ -394,19 +408,12 @@ export class ExpenseList extends React.Component<any, any>{
         let yearList = <div id="Year-List" className="absolute font-white flex column center-column roboto year-list to-front scroll-hide" style={{height: `calc(${arrLength}*40px)`}}>{list}</div>;
         let disable = '';
         if (this.props.disable) disable = ' disable';
-        let monthRevealed: any = '';
-        if (this.state.displayed.isRevealed){
-            let data = expenses.months.find( (expense: any) => expense.month == this.state.displayed.month );
-            console.log(data);
-            monthRevealed = <MonthRevealed expenses={data} shouldReload={this.shouldReload} />;
-        }
         return (
             <div className={"flex column center-column margin-top-42"+disable}>
                 <div className={"flex row center-column center-row font-white year-container roboto hover"} onClick={this.reveal} >{expenses.year}</div>
-                {yearList}
-                {monthRevealed}       
+                {yearList}    
                 <div> 
-                    <div className="flex row font-white roboto expense-row" >{expensesList.slice(0, 3)}</div>
+                    <div className="flex row font-white roboto expense-row relative" >{expensesList.slice(0, 3)}</div>
                     <div className="flex row font-white roboto expense-row" >{expensesList.slice(3, 6)}</div>
                     <div className="flex row font-white roboto expense-row" >{expensesList.slice(6, 9)}</div>
                     <div className="flex row font-white roboto expense-row" >{expensesList.slice(9, 12)}</div>
