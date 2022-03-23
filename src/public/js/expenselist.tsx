@@ -198,6 +198,7 @@ function Expense(props: any){
                 <td className="checkbox-cell"></td>
            </tr>
 }
+/*
 function MonthRevealed (props: any){
     const [revealState, setRevealState] = useState(false);
     useEffect( () => {
@@ -242,6 +243,8 @@ function MonthRevealed (props: any){
         </div>
     )
 }
+*/
+/*
 class Month extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
@@ -267,11 +270,33 @@ class Month extends React.Component<any, any> {
     }
     render() {
         return (
-            <>
             <MonthRevealed expenses={this.props.expenses} reveal={this.state.isRevealed} hide={this.reveal} />
-            </>
         )
     }
+}
+*/
+function Month(props: any) {
+    const [revealState, setRevealState] = useState(false);
+    useEffect( () => {
+        let element = document.getElementById(props.expenses.month);
+        if (revealState) element.classList.add('focused');
+        else element.classList.remove('focused');
+        props.hide(props.expenses.month, revealState);
+
+        return () => element.classList.remove('focused');
+    }, [revealState])
+    useEffect( () => {
+       if (revealState != props.shouldReveal) setRevealState(props.shouldReveal);
+    }, [props.shouldReveal])
+    function reveal(e: any){
+       setRevealState(!revealState);
+    }
+    return (
+        <div className="relative">
+        <div className="expense-container margin-top-26 hover" onClick={reveal} id={props.expenses.month} ></div>
+        <div className="absolute">{props.expenses.month}</div>
+        </div>
+    )
 }
 export class ExpenseList extends React.Component<any, any>{
     constructor(props: any){
@@ -332,7 +357,7 @@ export class ExpenseList extends React.Component<any, any>{
         let displayed = this.state.displayed;
         displayed.month = month;
         displayed.isRevealed = isRevealed;
-        this.setState({displayed: displayed});
+        if (displayed.isRevealed) this.setState({displayed: displayed});
     }
     changeIndex(index: any){
         let newYear = this.state.year;

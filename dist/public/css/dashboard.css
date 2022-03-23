@@ -135,8 +135,7 @@ p{
     color: #B5B5B5;
 }
 .focused{
-    height: 345px;
-    width: 300px;
+    transform: scale(2);
     z-index: 1;
 }
 .overlay{
