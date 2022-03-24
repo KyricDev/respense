@@ -279,11 +279,23 @@ function Month(props: any) {
     const [revealState, setRevealState] = useState(false);
     useEffect( () => {
         let element = document.getElementById(props.expenses.month);
-        if (revealState) element.classList.add('focused');
-        else element.classList.remove('focused');
+        let list = document.getElementById(props.expenses.month+'-list');
+        let label = document.getElementById(props.expenses.month+'-label');
+        if (revealState){
+            element!.classList.add('focused');
+            list!.classList.add('focused-list');
+            label!.classList.add('margin-label');
+        }
+        else{
+            element!.classList.remove('focused');
+            list!.classList.remove('focused-list');
+            label!.classList.remove('margin-label');
+        }
         props.hide(props.expenses.month, revealState);
-
-        return () => element.classList.remove('focused');
+        return () => {
+            element!.classList.remove('focused');
+            list!.classList.remove('focused-list');
+        }
     }, [revealState])
     useEffect( () => {
        if (revealState != props.shouldReveal) setRevealState(props.shouldReveal);
@@ -291,11 +303,34 @@ function Month(props: any) {
     function reveal(e: any){
        setRevealState(!revealState);
     }
+    function shouldReload(e: any){
+        props.shouldReload();
+    }
+    let expenses = props.expenses.expenses.map( (expense: any, index: any, arr: any) => {
+        return <Expense key={expense.id} data={expense} shouldReload={shouldReload} />
+    })
+    console.log(props);
     return (
-        <div className="relative">
-        <div className="expense-container margin-top-26 hover" onClick={reveal} id={props.expenses.month} ></div>
-        <div className="absolute">{props.expenses.month}</div>
+        <>
+        <div className="flex column center-column center-row relative">
+            <div className="expense-container margin-top-26 hover" onClick={reveal} id={props.expenses.month} style={{transformOrigin: `calc(${props.column}*50%) calc(${props.row}*33.33%)`}}></div>
+            <div className="transition-margin margin-top-26p absolute hover" onClick={reveal} id={props.expenses.month+'-label'}>{props.expenses.month}</div>
         </div>
+        <div className="scroll-hide empty-container absolute top-16-5p to-front" id={props.expenses.month+'-list'}>
+            <table>
+                <tbody>
+                    <tr className="flex row center-row center-column color-orange size-14 roboto weight-normal">
+                        <th className="checkbox-cell"></th>
+                        <th>NAME</th>
+                        <th>VALUE</th>
+                        <th>ACTIONS</th>
+                        <th className="checkbox-cell"></th>
+                    </tr>
+                    {expenses}
+                </tbody>
+            </table>
+        </div>
+        </>
     )
 }
 export class ExpenseList extends React.Component<any, any>{
@@ -346,14 +381,11 @@ export class ExpenseList extends React.Component<any, any>{
                 e.target.classList.remove('bottom-border-straight');
             }
         });
-        console.log(element);
         let year = this.state.year;
         year.isRevealed = !this.state.year.isRevealed;
         this.setState({ year: year });
     }
     hide(month: any, isRevealed: any){
-        console.log(month);
-        console.log(isRevealed);
         let displayed = this.state.displayed;
         displayed.month = month;
         displayed.isRevealed = isRevealed;
@@ -392,31 +424,9 @@ export class ExpenseList extends React.Component<any, any>{
             let shouldReveal = false;
             if (this.state.displayed.month == expense.month) shouldReveal = this.state.displayed.isRevealed;
             if (this.state.displayed.month == 'all') shouldReveal = false; 
-            let row = 0;
-            switch (index){
-                case 0:
-                case 1:
-                case 2:
-                    row = 0;
-                    break;
-                case 3:
-                case 4:
-                case 5:
-                    row = 1;
-                    break;
-                case 6:
-                case 7:
-                case 8:
-                    row = 2;
-                    break;
-                case 9:
-                case 10:
-                case 11:
-                    row = 3;
-                    break;
-            }
-            console.log(this.state.displayed.isRevealed);
             return <Month key={expense.month} 
+                          row={Math.floor(index/3)}
+                          column={index - ( Math.floor(index/3) * 3 )}
                           expenses={expense} 
                           shouldReveal={shouldReveal} 
                           shouldReload={this.shouldReload} 
@@ -437,8 +447,8 @@ export class ExpenseList extends React.Component<any, any>{
             <div className={"flex column center-column margin-top-42"+disable}>
                 <div className={"flex row center-column center-row font-white year-container roboto hover"} onClick={this.reveal} >{expenses.year}</div>
                 {yearList}    
-                <div> 
-                    <div className="flex row font-white roboto expense-row relative" >{expensesList.slice(0, 3)}</div>
+                <div className="relative"> 
+                    <div className="flex row font-white roboto expense-row" >{expensesList.slice(0, 3)}</div>
                     <div className="flex row font-white roboto expense-row" >{expensesList.slice(3, 6)}</div>
                     <div className="flex row font-white roboto expense-row" >{expensesList.slice(6, 9)}</div>
                     <div className="flex row font-white roboto expense-row" >{expensesList.slice(9, 12)}</div>
