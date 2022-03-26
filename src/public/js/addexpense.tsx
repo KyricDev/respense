@@ -59,10 +59,12 @@ export class AddExpense extends React.Component<any, any>{
     }
     render(){
         let isRecurring = this.state.isRecurring;
+        let toBack = ' to-front';
+        if (this.props.reveal == '') toBack = ' to-back';
 
         return(
-            <div className="absolute overlay view-width">
-                <form className="flex column center-row center-column add-expense-container opaque-bg" method="post" onSubmit={this.submit}>
+            <div className={"absolute overlay view-width"+toBack}>
+                <form className={"empty-container flex column center-row center-column add-expense-container opaque-bg"+this.props.reveal} method="post" onSubmit={this.submit}>
                     <div className="flex row center-row center-column">
                         <input className="auto-size" type="checkbox" name="isRecurring" onChange={this.recurring}></input>
                         <div className="size-12 roboto font-white">Recurring Expense</div>

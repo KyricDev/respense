@@ -61,9 +61,6 @@ p{
 .space-between{
     justify-content: space-between;
 }
-.to-front{
-    z-index: 1;
-}
 .hover:hover{
     cursor: pointer;
 }
@@ -73,16 +70,18 @@ p{
     border-radius: 10px;
     background-color: #0E0F19;
     font-size: 18px;
-    transition: transform 1s ease-in-out;
+    transition: all 500ms ease-in-out;
 }
 .empty-container{
     height: 0px;
     width: 0px;
-    transition: all 1s ease-in-out;
+    clip-path: inset(100% 100% 100% 100%);
+    transition: all 500ms ease-in-out;
     background: #0E0F19;
 }
 .expense-row{
     width: 300px;
+    min-height: 101px;
     justify-content: space-between;
 }
 .year-container{
@@ -136,16 +135,27 @@ p{
 .focused{
     transform: scale(2);
     transform: scale(3.33, 5.05);
+    border-radius: 3px;
 }
 .focused-list{
-    height: 338px;
+    height: 290px;
     width: 300px;
+    clip-path: inset(0% 0% 0% 0%);
 }
-.top-16-5p{
-    top: 16.5%;
+.top-17-5p{
+    top: 17.5%;
 }
 .to-front{
     z-index: 1;
+}
+.to-front-2{
+    z-index: 2;
+}
+.to-front-3{
+    z-index: 3;
+}
+.to-back{
+    z-index: -1;
 }
 .overlay{
     display: flex;
@@ -153,17 +163,26 @@ p{
     justify-content: center;
     align-items: center;
     margin-top: 64px;
-    z-index: 1;
 }
 .view-width{
     width: 100vw;
+    clip-path: inset(0% 0% 0% 0%);
 }
 .add-expense-container{    
     width: 300px;
-    height: 400px;
+    height: 444px;
+}
+.inset-0{
+    clip-path: inset(0% 0% 0% 0%);
 }
 .disable{
-    opacity: 0.20;
+    opacity: 0.20 !important;
+}
+.transition-opacity{
+    transition: opacity 500ms ease-in-out;
+}
+.opacity-100{
+    opacity: 1;
 }
 .opaque-bg{
     background-color: rgb(14, 15, 25, 0.95);
@@ -185,6 +204,9 @@ p{
     background-color: #adf7b6;
     border-radius: 15px;
 }
+.label-padding{
+    padding: 0px 0px 0px 0px;
+}
 .margin-top-42{
     margin-top: 42px;
 }
@@ -197,12 +219,11 @@ p{
 .margin-top-26p{
     margin-top: 26%;
 }
-.margin-label{
-    margin-top: 0%;
-    margin-left: 230%;
-}
 .transition-margin{
-    transition: margin 1s ease-in-out;
+    transition: margin 500ms ease-in-out;
+}
+.transition-dimensions{
+    transition: height 500ms ease-in-out, width 500ms ease-in-out;
 }
 .logout-height{
     height: 22px;
@@ -264,8 +285,8 @@ td{
     background: #8bc792;
 }
 .checkmark{
-    margin-left: 4px;
-    margin-top: 1px;
+    margin-left: 3.3px;
+    margin-top: 1.4px;
     bottom: 0px;
     width: 1px;
     height: 4px;

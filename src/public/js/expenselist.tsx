@@ -279,22 +279,46 @@ function Month(props: any) {
     const [revealState, setRevealState] = useState(false);
     useEffect( () => {
         let element = document.getElementById(props.expenses.month);
+        let label = document.getElementById(props.expenses.month+'-label');
+        element!.addEventListener('transitionstart', () =>{
+            element!.classList.add('to-front');
+        });
+        element!.addEventListener('transitionend', () =>{
+            if (!element!.classList.contains('focused')) {
+                element!.classList.remove('to-front');
+            }
+        });
+        label!.addEventListener('transitionstart', () => {
+            label!.classList.add('to-front');
+        });
+        label!.addEventListener('transitionend', () =>{
+            if (!element!.classList.contains('focused')) {
+                label!.classList.remove('to-front');
+            }
+        });
+    }, [])
+    useEffect( () => {
+        let element = document.getElementById(props.expenses.month);
         let list = document.getElementById(props.expenses.month+'-list');
         let label = document.getElementById(props.expenses.month+'-label');
         if (revealState){
             element!.classList.add('focused');
             list!.classList.add('focused-list');
-            label!.classList.add('margin-label');
+            label!.style.marginTop = `calc(${props.row}*-230%)`;
+            label!.style.marginLeft = `calc(230% + (${props.column}*-230%))`;
         }
         else{
             element!.classList.remove('focused');
             list!.classList.remove('focused-list');
-            label!.classList.remove('margin-label');
+            label!.style.marginTop = ``;
+            label!.style.marginLeft = ``;
         }
         props.hide(props.expenses.month, revealState);
         return () => {
             element!.classList.remove('focused');
             list!.classList.remove('focused-list');
+            label!.style.marginTop = ``;
+            label!.style.marginLeft = ``;
         }
     }, [revealState])
     useEffect( () => {
@@ -309,14 +333,13 @@ function Month(props: any) {
     let expenses = props.expenses.expenses.map( (expense: any, index: any, arr: any) => {
         return <Expense key={expense.id} data={expense} shouldReload={shouldReload} />
     })
-    console.log(props);
     return (
         <>
         <div className="flex column center-column center-row relative">
             <div className="expense-container margin-top-26 hover" onClick={reveal} id={props.expenses.month} style={{transformOrigin: `calc(${props.column}*50%) calc(${props.row}*33.33%)`}}></div>
             <div className="transition-margin margin-top-26p absolute hover" onClick={reveal} id={props.expenses.month+'-label'}>{props.expenses.month}</div>
         </div>
-        <div className="scroll-hide empty-container absolute top-16-5p to-front" id={props.expenses.month+'-list'}>
+        <div className="scroll-hide empty-container absolute top-17-5p to-front" id={props.expenses.month+'-list'}>
             <table>
                 <tbody>
                     <tr className="flex row center-row center-column color-orange size-14 roboto weight-normal">
@@ -388,15 +411,16 @@ export class ExpenseList extends React.Component<any, any>{
     hide(month: any, isRevealed: any){
         let displayed = this.state.displayed;
         displayed.month = month;
+        if (!isRevealed) displayed.month = '';
         displayed.isRevealed = isRevealed;
-        if (displayed.isRevealed) this.setState({displayed: displayed});
+        this.setState({displayed: displayed});
     }
     changeIndex(index: any){
         let newYear = this.state.year;
         newYear.index = index;
         newYear.isRevealed = false;
         let newDisplayed = this.state.displayed;
-        newDisplayed.month = 'all';
+        newDisplayed.month = '';
         newDisplayed.isRevealed = false;
         this.setState({ displayed: newDisplayed, year: newYear });
     }
@@ -423,7 +447,7 @@ export class ExpenseList extends React.Component<any, any>{
         let expensesList = expenses.months.map( (expense: any, index: any, arr: any) => {
             let shouldReveal = false;
             if (this.state.displayed.month == expense.month) shouldReveal = this.state.displayed.isRevealed;
-            if (this.state.displayed.month == 'all') shouldReveal = false; 
+            if (this.state.displayed.month == '') shouldReveal = false; 
             return <Month key={expense.month} 
                           row={Math.floor(index/3)}
                           column={index - ( Math.floor(index/3) * 3 )}
@@ -440,11 +464,11 @@ export class ExpenseList extends React.Component<any, any>{
         let list = this.state.expenses.map( (value: any, index: any, arr: any) => {
             return <div className="flex row center-column center-row year-container hover" key={value.year} onClick={this.changeIndex.bind(this, index)}>{value.year}</div>
         })
-        let yearList = <div id="Year-List" className="absolute font-white flex column center-column roboto year-list to-front scroll-hide" style={{height: `calc(${arrLength}*40px)`}}>{list}</div>;
+        let yearList = <div id="Year-List" className="absolute font-white flex column center-column roboto year-list to-front-3 scroll-hide" style={{height: `calc(${arrLength}*40px)`}}>{list}</div>;
         let disable = '';
         if (this.props.disable) disable = ' disable';
         return (
-            <div className={"flex column center-column margin-top-42"+disable}>
+            <div className={"flex column center-column margin-top-42 transition-opacity opacity-100"+disable}>
                 <div className={"flex row center-column center-row font-white year-container roboto hover"} onClick={this.reveal} >{expenses.year}</div>
                 {yearList}    
                 <div className="relative"> 

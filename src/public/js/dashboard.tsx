@@ -22,7 +22,7 @@ class Dashboard extends React.Component<any, any>{
         this.setState({ updateList: false });
     }
     render() {
-        let addExpense = <AddExpense expenseAdded={this.reload}/>;
+        let addExpense = <AddExpense expenseAdded={this.reload} reveal=' inset-0'/>;
         let shouldReload = this.state.updateList;
         let cookieArr = decodeURIComponent(document.cookie).split(';');
         let name = '';
@@ -33,7 +33,7 @@ class Dashboard extends React.Component<any, any>{
         })
         let disable = true;
         if (!this.state.isAddForm) {
-            addExpense = <div></div>
+            addExpense = <AddExpense expenseAdded={this.reload} reveal=''/>;
             disable = false;
         }
         return(
