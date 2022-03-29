@@ -8,14 +8,16 @@ export function OAuthButton() {
                  data-client_id="425711147539-3foeia0vc7n80d3i7sgi2j6jblfgsmpo.apps.googleusercontent.com"
                  data-login_uri={siteRoot + "trygoogle"}
                  data-auto_prompt="false"
+                 data-context="signin"
+                 data-ux_mode="popup"
                  >
             </div>
             <div className="g_id_signin"
                  data-type="standard"
                  data-size="large"
-                 data-theme="outline"
-                 data-text="sign_in_with"
-                 data-shape="rectangular"
+                 data-theme="filled_black"
+                 data-text="continue_with"
+                 data-shape="pill"
                  data-logo_alignment="left">
             </div>
         </div>      
