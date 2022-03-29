@@ -4,10 +4,10 @@ import { usercontext } from '../data/usercontext.js';
 export async function localLogin (req: express.Request, res: express.Response, next: express.NextFunction) {
     console.log(`Login API Called`);
 
-    //let username = req.body.username;
-    //let password = req.body.password;
-    let username = "Dummy0";
-    let password = "Dummy0";
+    let username = req.body.username;
+    let password = req.body.password;
+    //let username = "Dummy0";
+    //let password = "Dummy0";
     
     if (req.session.isOAuth){
         res.status(202)
