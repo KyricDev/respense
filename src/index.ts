@@ -17,7 +17,8 @@ import multer from 'multer';
 import { google } from 'googleapis';
 
 const app = express();
-const port: number = 80;
+//const port: number = 80;
+const port: number = 3000;
 const __dirname: string = path.resolve();
 const upload = multer();
 
