@@ -42,10 +42,10 @@ app.use(async (req, res, next) => {
     }
     */
     // basicAuth("Dummy0", "Dummy0");
-    // try { await usercontext.sync({ force: true }); }
-    // catch(err){ console.log(err); }
-    // try { await expensescontext.sync({ force: true }); }
-    // catch(err){ console.log(err); }
+    try { await usercontext.sync(); }
+    catch(err){ console.log(err); }
+    try { await expensescontext.sync(); }
+    catch(err){ console.log(err); }
     /*
     let expensessequelize = expensescontext
                             .build({
