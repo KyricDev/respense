@@ -5,7 +5,7 @@ import Expenses from '../models/expenses.js';
 import { Client } from 'pg';
 
 function initSequelize(): Sequelize {
-    let appsettings = JSON.parse(fs.readFileSync('src/appsettings.json', 'utf-8'));
+    //let appsettings = JSON.parse(fs.readFileSync('src/appsettings.json', 'utf-8'));
     //let sequelize: Sequelize = new Sequelize(appsettings.connectionstrings.postgres);
     let sequelize: Sequelize = new Sequelize(process.env.DATABASE_URL!);
 
