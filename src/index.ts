@@ -18,7 +18,7 @@ import { google } from 'googleapis';
 
 const app = express();
 //const port: number = 80;
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 80;
 const __dirname: string = path.resolve();
 const upload = multer();
 
@@ -42,6 +42,7 @@ app.use(async (req, res, next) => {
     }
     */
     // basicAuth("Dummy0", "Dummy0");
+    /*
     try { await usercontext.sync(); }
     catch(err){ console.log(err); }
     try { await expensescontext.sync(); }

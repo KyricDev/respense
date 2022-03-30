@@ -12,8 +12,11 @@ class Dashboard extends React.Component<any, any>{
         this.reload = this.reload.bind(this);
         this.reset = this.reset.bind(this);
     }
-    addForm(){
-        this.setState({ isAddForm: !this.state.isAddForm });
+    addForm(e: any){
+        this.setState({ isAddForm: !this.state.isAddForm }, () => {
+            e.target.value = 'Add';
+            if (this.state.isAddForm) e.target.value = 'Cancel';
+        });
     }
     reload(){
         this.setState({ updateList: true });
@@ -44,7 +47,7 @@ class Dashboard extends React.Component<any, any>{
                     <SignOut />
                 </div>
                 <ExpenseList disable={disable} shouldReload={shouldReload} reloaded={this.reset}/>
-                <button className="button-priority hover button-green margin-top-42" onClick={this.addForm} >Add</button>
+                <input type='submit' className="button-priority hover button-green margin-top-42 padding-null" onClick={this.addForm} value='Add'></input>
             </div>
         )
     }

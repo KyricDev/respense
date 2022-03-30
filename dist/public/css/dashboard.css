@@ -18,8 +18,8 @@ input{
     background-color: white;
     border: none;
     margin: 0px;
-    padding: 0px;
-    width: 239px;
+    padding: 0px 0px 0px 10px; 
+    width: 229px;
     height: 30px;
     opacity: 100%;
     border-radius: 15px;
@@ -39,6 +39,16 @@ p{
 }
 .font-white{
     color: white;
+}
+.font-red{
+    color: #a50104;
+}
+.font-yellow{
+    color: #FCF5C7;
+}
+.error-placeholder{
+    margin-top: 5px;
+    min-height: 12.8px;
 }
 .flex{
     display: flex;
@@ -111,6 +121,9 @@ p{
 }
 .size-12{
     font-size: 12px;
+}
+.size-11{
+    font-size: 11px;
 }
 .size-14{
     font-size: 14px;
@@ -309,4 +322,12 @@ td{
     color: white;
     font-size: 12px;
     margin-top: 1px;
+}
+.placeholder{
+    width: 300px;
+    height: 486px;
+    text-align: center;
+}
+.padding-null{
+    padding: 0px;
 }

@@ -1,3 +1,4 @@
+import e from 'express';
 import React from 'react';
 import { json } from 'sequelize/dist';
 import { apiRoot } from './siteroot';
@@ -9,13 +10,27 @@ export class AddExpense extends React.Component<any, any>{
             isRecurring: false, 
             month: '', 
             periodStart: '', 
-            periodEnd: ''
+            periodEnd: '',
+            statusText: '',
         };
         this.submit = this.submit.bind(this);
         this.recurring = this.recurring.bind(this);
         this.setMonth = this.setMonth.bind(this);
         this.setPeriodStart = this.setPeriodStart.bind(this);
         this.setPeriodEnd = this.setPeriodEnd.bind(this);
+        this.toMonth = this.toMonth.bind(this);
+        this.toText = this.toText.bind(this);
+    }
+    componentDidUpdate(prevProps: any, prevState: any){
+        if (prevProps.reveal != this.props.reveal) {
+            this.setState({ 
+                isRecurring: false, 
+                month: '', 
+                periodStart: '', 
+                periodEnd: '',
+                statusText: '',
+            })
+        }
     }
     submit(e: any){
         e.preventDefault();
@@ -36,7 +51,13 @@ export class AddExpense extends React.Component<any, any>{
         .then( (response) => response.json())
         .then( (data) => {
             console.log(data);
-            if (data.status == 'success') this.props.expenseAdded();
+            if (data.status == 'success') {
+                this.props.expenseAdded();
+                this.setState({statusText: 'Expense Added!'})
+            }
+            else{
+                this.setState({statusText: data.statusText})
+            }
         })
         .catch( (err) => console.error(err) );
     }
@@ -57,10 +78,22 @@ export class AddExpense extends React.Component<any, any>{
     setPeriodEnd(e: any){
         this.setState({periodEnd: e.target.value});
     }
+    toMonth(e: any){
+        e.target.type = 'month';
+    }
+    toText(e: any){
+        if (e.target.value == '') e.target.type = 'text';
+    }
     render(){
         let isRecurring = this.state.isRecurring;
         let toBack = ' to-front';
         if (this.props.reveal == '') toBack = ' to-back';
+        let disable = '';
+        let disableRecc = ' disable';
+        if (isRecurring){
+            disable = ' disable';
+            disableRecc = '';
+        }
 
         return(
             <div className={"absolute overlay view-width"+toBack}>
@@ -71,9 +104,10 @@ export class AddExpense extends React.Component<any, any>{
                     </div>
                     <input className="field-margin" type="text" name="name" placeholder="Name"></input>
                     <input className="field-margin" type="text" name="value" placeholder="Value"></input>
-                    <input className="field-margin" type="month" disabled={isRecurring} onChange={this.setMonth} value={this.state.month} placeholder="MONTH & YEAR" ></input>
-                    <input className="field-margin" type="month" disabled={!isRecurring} onChange={this.setPeriodStart} value={this.state.periodStart} placeholder="FROM" ></input>
-                    <input className="field-margin" type="month" disabled={!isRecurring} onChange={this.setPeriodEnd} value={this.state.periodEnd} placeholder="TO" ></input>
+                    <input className={"field-margin transition-opacity opacity-100"+disable} onFocus={this.toMonth} onBlur={this.toText} type="text" disabled={isRecurring} onChange={this.setMonth} value={this.state.month} placeholder="Month & Year" ></input>
+                    <input className={"field-margin transition-opacity opacity-100"+disableRecc} onFocus={this.toMonth} onBlur={this.toText} type="text" disabled={!isRecurring} onChange={this.setPeriodStart} value={this.state.periodStart} placeholder="From" ></input>
+                    <input className={"field-margin transition-opacity opacity-100"+disableRecc} onFocus={this.toMonth} onBlur={this.toText} type="text" disabled={!isRecurring} onChange={this.setPeriodEnd} value={this.state.periodEnd} placeholder="To" ></input>
+                    <div className="roboto size-11 font-yellow error-placeholder">{this.state.statusText}</div>
                     <button className="hover field-margin button-green">Add Expense</button>
                 </form>
             </div>

@@ -442,8 +442,13 @@ export class ExpenseList extends React.Component<any, any>{
     }
     render() {
         let index = this.state.year.index;
-        let expenses: any = this.state.expenses[index];
-        if (expenses === undefined) return (<div>Loading . . .</div>)
+        let expenses: any = this.state.expenses[index];let disable = '';
+        if (this.props.disable) disable = ' disable';
+        if (expenses === undefined) return (
+            <div className={"flex row center-row center-column placeholder roboto transition-opacity opacity-100"+disable}>
+                No Expenses Created. Create one by clicking the "add" button.
+            </div>
+        )
         let expensesList = expenses.months.map( (expense: any, index: any, arr: any) => {
             let shouldReveal = false;
             if (this.state.displayed.month == expense.month) shouldReveal = this.state.displayed.isRevealed;
@@ -465,8 +470,7 @@ export class ExpenseList extends React.Component<any, any>{
             return <div className="flex row center-column center-row year-container hover" key={value.year} onClick={this.changeIndex.bind(this, index)}>{value.year}</div>
         })
         let yearList = <div id="Year-List" className="absolute font-white flex column center-column roboto year-list to-front-3 scroll-hide" style={{height: `calc(${arrLength}*40px)`}}>{list}</div>;
-        let disable = '';
-        if (this.props.disable) disable = ' disable';
+        
         return (
             <div className={"flex column center-column margin-top-42 transition-opacity opacity-100"+disable}>
                 <div className={"flex row center-column center-row font-white year-container roboto hover"} onClick={this.reveal} >{expenses.year}</div>
