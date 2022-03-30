@@ -1,0 +1,4 @@
+//export const siteRoot = "http://localhost/";
+export const siteRoot = "https://respense.herokuapp.com/";
+export const apiRoot = siteRoot;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic2l0ZXJvb3QuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi9zcmMvcHVibGljL2pzL3NpdGVyb290LnRzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSw4Q0FBOEM7QUFDOUMsTUFBTSxDQUFDLE1BQU0sUUFBUSxHQUFHLGlDQUFpQyxDQUFDO0FBQzFELE1BQU0sQ0FBQyxNQUFNLE9BQU8sR0FBRyxRQUFRLENBQUMifQ==

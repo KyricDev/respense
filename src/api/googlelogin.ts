@@ -4,6 +4,7 @@ import path from 'path';
 import redirect from 'url';
 import jwt from 'jsonwebtoken';
 import { usercontext } from '../data/usercontext.js';
+import {siteRoot} from '../public/js/siteroot.js';
 
 const scope = [
     //'https://www.googleapis.com/auth/contacts.readonly',
@@ -15,7 +16,7 @@ const scope = [
 const googleClient = new google.auth.OAuth2(
     '425711147539-3foeia0vc7n80d3i7sgi2j6jblfgsmpo.apps.googleusercontent.com', 
     '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', 
-    'http://localhost/googleoauth'
+    siteRoot + 'googleoauth'
 )
 const url = googleClient.generateAuthUrl({
     access_type: 'online',
