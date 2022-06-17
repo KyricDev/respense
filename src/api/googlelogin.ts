@@ -18,8 +18,8 @@ const scope = [
 let settings = JSON.parse( fs.readFileSync('src/appsettings.json', 'utf8') ) ;
 
 const googleClient = new google.auth.OAuth2(
-    settings.clientID,
-    settings.clientSecret, 
+    process.env.CLIENT_ID || settings.clientID,
+    process.env.CLIENT_SECRET || settings.clientSecret, 
     siteRoot + 'googleoauth'
 )
 const url = googleClient.generateAuthUrl({
