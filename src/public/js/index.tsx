@@ -87,8 +87,8 @@ class Root extends React.Component<any, any>{
     }
     render(){
         let formState = "Login";
-        let confirmPassword = null;
-        let spacing = null;
+        let confirmPassword: any;
+        let spacing: any;
         let action = this.login;
         let signInButton = <button className="roboto slider-font slider-button to-front" type="button" >Sign In</button>
         let signUpButton = <button className="roboto slider-font slider-button to-front hover" type="button" onClick={this.changeForm} >Sign Up</button>
