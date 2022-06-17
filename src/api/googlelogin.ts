@@ -15,11 +15,11 @@ const scope = [
     'profile',
 ];
 
-let settings = JSON.parse( fs.readFileSync('src/appsettings.json', 'utf8') ) ;
+//let settings = JSON.parse( fs.readFileSync('src/appsettings.json', 'utf8') ) ;
 
 const googleClient = new google.auth.OAuth2(
-    process.env.CLIENT_ID || settings.clientID,
-    process.env.CLIENT_SECRET || settings.clientSecret, 
+    process.env.CLIENT_ID,
+    process.env.CLIENT_SECRET, 
     siteRoot + 'googleoauth'
 )
 const url = googleClient.generateAuthUrl({
